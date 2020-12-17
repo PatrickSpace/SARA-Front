@@ -1,4 +1,5 @@
-# gracefront
+# Front End SARA
+Este proyecto está hecho con Vue.js, es capaz de enviar archivos PDF (tesis) a un microservicio junto con una pregunta para obtener una respuesta
 
 ## Project setup
 ```
