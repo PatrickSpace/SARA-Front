@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app absolute dark>
-    <v-toolbar-title>S.A.R.A.</v-toolbar-title>
+    <v-toolbar-title>S.A.R.A. - {{ title }}</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon>
       <v-icon>mdi-github</v-icon>
@@ -16,5 +16,8 @@
 <script>
 export default {
   name: "Navbar",
+  props: {
+    title: String,
+  },
 };
 </script>
