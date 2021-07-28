@@ -1,5 +1,5 @@
 <template>
-  <Profelayout>
+  <Defaultlayout>
     <section slot="contenido">
       <div class="container">
         <h2>Preguntas</h2>
@@ -7,12 +7,12 @@
         <Inferencia v-bind:pdf="ispdf" />
       </div>
     </section>
-  </Profelayout>
+  </Defaultlayout>
 </template>
 
 <script>
 import Inferencia from "@/components/Inferencia.vue";
-import Profelayout from "@/layouts/Profesorlayout.vue";
+import Defaultlayout from "@/layouts/Defaultlayout.vue";
 export default {
   name: "Preguntas",
   data() {
@@ -22,7 +22,7 @@ export default {
   },
   components: {
     Inferencia,
-    Profelayout,
+    Defaultlayout,
   },
   computed: {
     changelabelpdf() {

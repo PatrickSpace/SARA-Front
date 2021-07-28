@@ -5,19 +5,24 @@
     <v-btn icon>
       <v-icon>mdi-github</v-icon>
     </v-btn>
-    <template v-slot:extension>
-      <v-tabs centered grow>
-        <v-tab to="/">Resumen</v-tab>
-        <v-tab to="/preguntas">Preguntas</v-tab>
-      </v-tabs>
-    </template>
   </v-app-bar>
 </template>
 <script>
+import Navdrawer from "@/components/Nav/Navdrawer";
+import { mapMutations } from "vuex";
 export default {
   name: "Navbar",
   props: {
     title: String,
+  },
+  components: {
+    Navdrawer,
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    ...mapMutations(["toggleDrawer"]),
   },
 };
 </script>

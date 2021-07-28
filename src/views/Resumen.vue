@@ -1,20 +1,20 @@
 <template>
-  <Profelayout>
+  <Defaultlayout>
     <section slot="contenido">
       <div class="container">
         <Summary />
       </div>
     </section>
-  </Profelayout>
+  </Defaultlayout>
 </template>
 <script>
 import Summary from "@/components/Summary.vue";
-import Profelayout from "@/layouts/Profesorlayout.vue";
+import Defaultlayout from "@/layouts/Defaultlayout.vue";
 export default {
   name: "resumen",
   components: {
     Summary,
-    Profelayout,
+    Defaultlayout,
   },
 };
 </script>

@@ -3,14 +3,14 @@
     <v-main class="d-flex align-center" tag="div">
       <v-card class="mx-auto my-auto px-5 py-10" max-width="400">
         <v-card-title>Iniciar sesión</v-card-title>
-        <v-container>
-          <v-form ref="form" v-model="validlogin">
+        <v-form ref="form" v-model="validlogin" @submit.prevent="login()">
+          <v-container>
             <v-text-field
               prepend-inner-icon="mdi-account"
               v-model="user"
               counter
               clearable
-              :rules="emailRules"
+              :rules="userRules"
               label="Usuario"
               required
             ></v-text-field>
@@ -25,11 +25,11 @@
               required
               @click:append="show = !show"
             ></v-text-field>
-          </v-form>
-        </v-container>
-        <v-card-actions>
-          <v-btn class="primary" @click="login()" block>Ingresar</v-btn>
-        </v-card-actions>
+          </v-container>
+          <v-card-actions>
+            <v-btn class="primary" type="submit" block>Ingresar</v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
       <v-snackbar color="error" v-model="snackbar" timeout="6000">
         {{ msg }}
@@ -41,6 +41,7 @@
   </v-app>
 </template>
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "Loginview",
   data: () => {
@@ -49,25 +50,26 @@ export default {
       show: false,
       snackbar: false,
       msg: "",
-      user: "",
-      psw: "",
+      user: "director",
+      psw: "root",
       //Los arrays es porque se le pueden agregar más validaciones segun las reglas del negocio
-      emailRules: [(v) => !!v || "Este campo es obligatorio"],
-      pswRules: [
-        (v) => !!v || "Este campo es obligatorio",
-        /*
-        (v) =>
-          (v && v.length <= 8) ||
-          "La contraseña debe tener almenos 8 caracteres",
-        */
-      ],
+      userRules: [(v) => !!v || "Este campo es obligatorio"],
+      pswRules: [(v) => !!v || "Este campo es obligatorio"],
     };
   },
   methods: {
-    login() {
-      if (this.$refs.form.validate()) {
-        //enviar datos al backend
-        //
+    ...mapMutations(["setToken"]),
+    async login() {
+      try {
+        const result = await axios.post("/auth/login", {
+          usuario: this.user,
+          password: this.psw,
+        });
+        this.setToken(result.data.token);
+        localStorage.setItem("token", result.data.token);
+        this.$router.push("/");
+      } catch (error) {
+        console.log(error);
       }
     },
   },
