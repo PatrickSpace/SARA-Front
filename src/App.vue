@@ -12,11 +12,5 @@ export default {
   data: () => ({
     //
   }),
-  methods: {
-    ...mapActions(["leerToken"]),
-  },
-  created() {
-    this.leerToken();
-  },
 };
 </script>

@@ -3,7 +3,9 @@
     <Navdrawer />
     <Navbar />
     <v-main>
-      <slot name="contenido"></slot>
+      <v-container>
+        <slot name="contenido"></slot>
+      </v-container>
     </v-main>
   </v-app>
 </template>

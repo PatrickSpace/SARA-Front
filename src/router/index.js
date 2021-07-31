@@ -5,7 +5,9 @@ import store from "@/store/index";
 import Resumir from "@/views/Resumen.vue";
 import Preguntas from "@/views/Preguntas.vue";
 import Login from "@/views/auth/Login.vue";
-import Profesorroutes from "@/router/profesor.routes.js";
+
+import Userroutes from "@/router/users.routes.js";
+import Proyectoroutes from "@/router/proyectos.routes.js";
 Vue.use(VueRouter);
 
 const routes = [
@@ -26,24 +28,14 @@ const routes = [
     name: "login",
     component: Login,
   },
-  {
-    path: "/p",
-    component: Profesorroutes.home,
-    children: [
-      {
-        path: "test",
-        component: Profesorroutes.test,
-      },
-    ],
-  },
-  {
-    path: "/d",
-    name: "directorview",
-  },
-  {
-    path: "/c",
-    name: "coordinador",
-  },
+  //******PROYECTOS************/
+  Proyectoroutes.home,
+  Proyectoroutes.proyectodetalle,
+
+  //*******USUARIOS************/
+  Userroutes.all,
+  Userroutes.detalle
+
 ];
 
 const router = new VueRouter({
@@ -53,13 +45,14 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = store.state.token;
+  store.dispatch("leerToken");
+  const token = store.getters.getToken;
   const isprotegida = to.matched.some((ruta) => ruta.meta.protegida);
   if (isprotegida && token === null) {
     next("/login");
     console.log("no tienes acceso");
   } else if (token && !isprotegida) {
-    next("/");
+    next();
   } else {
     next();
   }

@@ -7,26 +7,27 @@ export default new Vuex.Store({
   state: {
     token: null,
   },
-  getters: {},
-  mutations: {
-    setToken(state, payload) {
-      state.token = payload;
+  getters: {
+    getToken: (state) => {return state.token}
     },
-  },
-  actions: {
-    leerToken({ commit }) {
-      if (localStorage.getItem("token")) {
-        commit("setToken", localStorage.getItem("token"));
-      } else {
+    mutations: {
+      setToken(state, payload) {
+        state.token = payload;
+      },
+    },
+    actions: {
+      leerToken({ commit }) {
+        if (localStorage.getItem("token")) {
+          commit("setToken", localStorage.getItem("token"));
+        } else {
+          commit("setToken", null);
+        }
+      },
+      logout({ commit }) {
+        localStorage.removeItem("token");
         commit("setToken", null);
-      }
+        router.push("/login");
+      },
     },
-    logout({ commit }) {
-      console.log("logout");
-      localStorage.removeItem("token");
-      commit("setToken", null);
-      router.push("/login");
-    },
-  },
-  modules: {},
-});
+    modules: {},
+  });

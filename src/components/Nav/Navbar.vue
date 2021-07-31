@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app absolute dark>
+  <v-app-bar tile app absolute dark color="primary">
     <v-toolbar-title>S.A.R.A. - {{ title }}</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon>
