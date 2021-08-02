@@ -3,31 +3,37 @@ import Vuex from "vuex";
 import router from "@/router";
 Vue.use(Vuex);
 
+import usuarioStore from "./usuarioStore";
+
 export default new Vuex.Store({
   state: {
     token: null,
   },
   getters: {
-    getToken: (state) => {return state.token}
+    getToken: (state) => {
+      return state.token;
     },
-    mutations: {
-      setToken(state, payload) {
-        state.token = payload;
-      },
+  },
+  mutations: {
+    setToken(state, payload) {
+      state.token = payload;
     },
-    actions: {
-      leerToken({ commit }) {
-        if (localStorage.getItem("token")) {
-          commit("setToken", localStorage.getItem("token"));
-        } else {
-          commit("setToken", null);
-        }
-      },
-      logout({ commit }) {
-        localStorage.removeItem("token");
+  },
+  actions: {
+    leerToken({ commit }) {
+      if (localStorage.getItem("token")) {
+        commit("setToken", localStorage.getItem("token"));
+      } else {
         commit("setToken", null);
-        router.push("/login");
-      },
+      }
     },
-    modules: {},
-  });
+    logout({ commit }) {
+      localStorage.removeItem("token");
+      commit("setToken", null);
+      router.push("/login");
+    },
+  },
+  modules: {
+    usuario: usuarioStore,
+  },
+});

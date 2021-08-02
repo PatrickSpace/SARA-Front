@@ -5,8 +5,8 @@ import axios from "axios";
 
 // Full config:  https://github.com/axios/axios#request-config
 axios.defaults.baseURL = "http://localhost:3000/api";
-axios.defaults.headers.common["x-access-token"] = localStorage.getItem("token");
-axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers["x-access-token"] = localStorage.getItem("token");
+axios.defaults.headers["Content-Type"] = "application/json";
 
 let config = {
   //baseURL: process.env.apiUrl,

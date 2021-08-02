@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar tile app absolute dark color="primary">
+  <v-app-bar height="72" flat app absolute dark color="primary">
     <v-toolbar-title>S.A.R.A. - {{ title }}</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon>
@@ -9,7 +9,6 @@
 </template>
 <script>
 import Navdrawer from "@/components/Nav/Navdrawer";
-import { mapMutations } from "vuex";
 export default {
   name: "Navbar",
   props: {
@@ -20,9 +19,6 @@ export default {
   },
   data() {
     return {};
-  },
-  methods: {
-    ...mapMutations(["toggleDrawer"]),
   },
 };
 </script>
