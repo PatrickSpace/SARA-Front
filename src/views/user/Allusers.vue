@@ -8,7 +8,7 @@
         v-bind:valores="getUsers"
         v-bind:loading="loading"
       />
-      <v-btn @click.stop="obtenenerdatos()">refresh</v-btn>
+  
     </section>
   </Defaultlayout>
 </template>
@@ -49,7 +49,6 @@ export default {
       try {
         this.loading = true;
         await this.getUsersfromapi();
-        console.log(this.getUsers);
       } catch (e) {
         console.log(e);
       } finally {

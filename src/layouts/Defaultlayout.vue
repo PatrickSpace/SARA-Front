@@ -9,6 +9,8 @@
         <slot name="contenido"></slot>
       </v-container>
     </v-main>
+    <NotificationList />
+     <v-btn color="purple" dark  fab fixed right top><v-icon>mdi-plus</v-icon></v-btn>
   </v-app>
 </template>
 <style>
@@ -19,12 +21,13 @@
 <script>
 import Navdrawer from "@/components/Nav/Navdrawer.vue";
 import Navbar from "@/components/Nav/Navbar.vue";
-
+import NotificationList from "@/components/Common/NotificationList.vue";
 export default {
   name: "ProfesorLayout",
   components: {
     Navdrawer,
     Navbar,
+    NotificationList
   },
   props: {
     titulo: String,

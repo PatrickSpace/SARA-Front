@@ -1,16 +1,12 @@
 <template>
-  <transition>
+  <section>
     <router-view></router-view>
-  </transition>
+  </section>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+
 export default {
   name: "App",
-  components: {},
-  data: () => ({
-    //
-  }),
 };
 </script>
