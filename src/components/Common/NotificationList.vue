@@ -1,6 +1,5 @@
 <template>
   <div class="notificationlist">
-    <h2>{{notificaciones.length }}</h2>
     <Notification
       v-for="(noti, i) in notificaciones"
       :key="i"
@@ -11,6 +10,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import Notification from "@/components/Common/Notification.vue";
 export default {
   name: "NotificationList",
@@ -20,24 +20,10 @@ export default {
   data: () => ({
     msg: "Hola",
     activo: true,
-    noti: {
-      tipo: "success",
-      color: "green",
-      msg: "Alerta",
-    },
-    notificaciones: [
-      {
-        tipo: "success",
-        color: "green",
-        msg: "Alerta",
-      },
-      {
-        tipo: "warning",
-        color: "red",
-        msg: "Alerta",
-      },
-    ],
   }),
+  computed: {
+    ...mapGetters({ notificaciones: "noti/getNotifications" }),
+  },
 };
 </script>
 
@@ -50,6 +36,6 @@ export default {
   padding-bottom: 5px;
   min-width: 30%;
   display: block;
-  transition:1s;
+  transition: 1s;
 }
 </style>

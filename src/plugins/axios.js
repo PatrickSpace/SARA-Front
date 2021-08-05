@@ -4,7 +4,7 @@ import Vue from "vue";
 import axios from "axios";
 
 // Full config:  https://github.com/axios/axios#request-config
-axios.defaults.baseURL = "http://localhost:3000/api";
+axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 axios.defaults.headers["x-access-token"] = localStorage.getItem("token");
 axios.defaults.headers["Content-Type"] = "application/json";
 

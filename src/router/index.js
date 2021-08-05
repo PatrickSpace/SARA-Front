@@ -2,10 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store/index";
 
-import Resumir from "@/views/Resumen.vue";
-import Preguntas from "@/views/Preguntas.vue";
 import Login from "@/views/auth/Login.vue";
-
+import Home from "@/views/Home.vue";
 import Userroutes from "@/router/users.routes.js";
 import Proyectoroutes from "@/router/proyectos.routes.js";
 Vue.use(VueRouter);
@@ -13,15 +11,9 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "resumir",
+    name: "home",
     meta: { protegida: true },
-    component: Resumir,
-  },
-  {
-    path: "/preguntas",
-    name: "preguntas",
-    meta: { protegida: true },
-    component: Preguntas,
+    component: Home,
   },
   {
     path: "/login",
@@ -34,8 +26,10 @@ const routes = [
 
   //*******USUARIOS************/
   Userroutes.all,
-  Userroutes.detalle
-
+  Userroutes.detalle,
+  Userroutes.profesores,
+  Userroutes.coordinadores,
+  Userroutes.directores,
 ];
 
 const router = new VueRouter({

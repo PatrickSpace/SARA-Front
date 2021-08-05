@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       aux: [],
-      titulo: "Usuarios",
+      titulo: "Profesores",
       loading: false,
       tableTitulo: "Todos los profesores",
       labelbusqueda: "Buscar por nombre",
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getUsersfromapi: "usuario/getAllusers",
+      getUsersfromapi: "usuario/getProfesores",
       addnoti: "noti/agregarNotificacion",
     }),
     async obtenenerdatos() {
@@ -51,8 +51,6 @@ export default {
         const notificacion = await this.getUsersfromapi();
         this.addnoti(notificacion);
       } catch (e) {
-        // this.addnoti(notificacion);
-
         console.log(e);
       } finally {
         this.loading = false;
@@ -61,7 +59,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUsers: "usuario/getUsuarios",
+      getUsers: "usuario/getProfesores",
     }),
   },
   created() {

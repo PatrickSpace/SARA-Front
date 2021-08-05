@@ -1,16 +1,17 @@
-import Vue from 'vue'
-import './plugins/axios'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import vuetify from './plugins/vuetify';
+import Vue from "vue";
+import "./plugins/axios";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import vuetify from "./plugins/vuetify";
 
-
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   store,
   router,
   vuetify,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");
+
+console.log(process.env.VUE_APP_API_URL);

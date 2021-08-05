@@ -1,8 +1,12 @@
 <template>
-  <v-app>
-    <v-main class="d-flex align-center" tag="div">
-      <v-card class="mx-auto my-auto px-5 py-10" max-width="400">
-        <v-card-title>Iniciar sesión</v-card-title>
+  <v-app app>
+    <v-main class="d-flex align-center" tag="div" app>
+      <v-card
+        class="mx-auto my-auto px-5 pb-10"
+        max-width="400"
+        :loading="loading"
+      >
+        <v-card-title class="pt-10">Iniciar sesión</v-card-title>
         <v-form ref="form" v-model="validlogin" @submit.prevent="login()">
           <v-container>
             <v-text-field
@@ -27,7 +31,9 @@
             ></v-text-field>
           </v-container>
           <v-card-actions>
-            <v-btn class="primary" type="submit" block>Ingresar</v-btn>
+            <v-btn :loading="loading" class="primary" type="submit" block
+              >Ingresar</v-btn
+            >
           </v-card-actions>
         </v-form>
       </v-card>
@@ -38,14 +44,20 @@
         </template>
       </v-snackbar>
     </v-main>
+    <NotificationList />
   </v-app>
 </template>
 <script>
-import { mapMutations } from "vuex";
+import NotificationList from "@/components/Common/NotificationList.vue";
+import { mapMutations, mapActions } from "vuex";
 export default {
   name: "Loginview",
+  components: {
+    NotificationList,
+  },
   data: () => {
     return {
+      loading: false,
       validlogin: true,
       show: false,
       snackbar: false,
@@ -59,8 +71,10 @@ export default {
   },
   methods: {
     ...mapMutations(["setToken"]),
+    ...mapActions({ addnoti: "noti/agregarNotificacion" }),
     async login() {
       try {
+        this.loading = true;
         const result = await axios.post("/auth/login", {
           usuario: this.user,
           password: this.psw,
@@ -69,7 +83,14 @@ export default {
         localStorage.setItem("token", result.data.token);
         this.$router.push("/");
       } catch (error) {
-        console.log(error);
+        const notificacion = {
+          tipo: "error",
+          color: "red",
+          msg: error.response.data.msg,
+        };
+        this.addnoti(notificacion);
+      } finally {
+        this.loading = false;
       }
     },
   },

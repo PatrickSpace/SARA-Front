@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="px-5">
     <v-card-title>
       {{ titulo }}
       <v-spacer></v-spacer>

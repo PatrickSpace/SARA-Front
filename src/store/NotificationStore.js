@@ -1,19 +1,21 @@
 export default {
-    namespaced: true,
-    state: {
-        notifications: []
+  namespaced: true,
+  state: {
+    notifications: [],
+  },
+  getters: {
+    getNotifications: (state) => state.notifications,
+  },
+  mutations: {
+    addNotification: (state, payload) => state.notifications.push(payload),
+    removeNotification: (state, index) => state.notifications.splice(index, 1),
+    updateNotifications: (state, payload) => {
+      state.notifications = payload;
     },
-    getters: {
-        getNotifications: (state) => state.notifications
+  },
+  actions: {
+    agregarNotificacion: ({ commit }, payload) => {
+      commit("addNotification", payload);
     },
-    mutations: {
-        addNotification: (state) => state.notifications.push,
-        removeNotification: (state, index) => state.notifications.splice(index, 1),
-        updateNotifications: (state, payload) => { state.notifications = payload },
-    },
-    actions: {
-        agregarNotificacion: ({ commit }) => {
-            commit("addNotification")
-        }
-    }
-}
+  },
+};

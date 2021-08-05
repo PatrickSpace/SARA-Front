@@ -10,7 +10,6 @@
       </v-container>
     </v-main>
     <NotificationList />
-     <v-btn color="purple" dark  fab fixed right top><v-icon>mdi-plus</v-icon></v-btn>
   </v-app>
 </template>
 <style>
@@ -27,7 +26,7 @@ export default {
   components: {
     Navdrawer,
     Navbar,
-    NotificationList
+    NotificationList,
   },
   props: {
     titulo: String,

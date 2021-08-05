@@ -17,17 +17,16 @@ import Datatable from "@/components/Common/DataTable.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "Allusers",
+  name: "Allcoordinadores",
   components: {
     Datatable,
     Defaultlayout,
   },
   data() {
     return {
-      aux: [],
-      titulo: "Usuarios",
+      titulo: "Coordinadores",
       loading: false,
-      tableTitulo: "Todos los profesores",
+      tableTitulo: "Todos los coordinadores",
       labelbusqueda: "Buscar por nombre",
       headers: [
         {
@@ -36,13 +35,12 @@ export default {
           value: "nombre",
         },
         { text: "Usuario", value: "usuario" },
-        { text: "Cantidad de proyectos", value: "proyectos" },
       ],
     };
   },
   methods: {
     ...mapActions({
-      getUsersfromapi: "usuario/getAllusers",
+      getUsersfromapi: "usuario/getCoordinadores",
       addnoti: "noti/agregarNotificacion",
     }),
     async obtenenerdatos() {
@@ -51,8 +49,6 @@ export default {
         const notificacion = await this.getUsersfromapi();
         this.addnoti(notificacion);
       } catch (e) {
-        // this.addnoti(notificacion);
-
         console.log(e);
       } finally {
         this.loading = false;
@@ -61,7 +57,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUsers: "usuario/getUsuarios",
+      getUsers: "usuario/getCoordinadores",
     }),
   },
   created() {

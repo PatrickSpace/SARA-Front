@@ -4,6 +4,7 @@ import router from "@/router";
 Vue.use(Vuex);
 
 import usuarioStore from "./usuarioStore";
+import NotificationStore from "./NotificationStore";
 
 export default new Vuex.Store({
   state: {
@@ -35,5 +36,6 @@ export default new Vuex.Store({
   },
   modules: {
     usuario: usuarioStore,
+    noti: NotificationStore,
   },
 });
