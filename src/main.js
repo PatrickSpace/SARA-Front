@@ -13,5 +13,3 @@ new Vue({
   vuetify,
   render: (h) => h(App),
 }).$mount("#app");
-
-console.log(process.env.VUE_APP_API_URL);

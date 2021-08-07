@@ -23,7 +23,7 @@
     <DirectorNav />
     <template v-slot:append>
       <v-list-item-group>
-        <v-list-item link @click.stop="logout()">
+        <v-list-item link @click.stop="cerrarSesion()">
           <v-list-item-icon>
             <v-icon color="red">mdi-power</v-icon>
           </v-list-item-icon>
@@ -49,6 +49,10 @@ export default {
   },
   methods: {
     ...mapActions(["logout"]),
+    cerrarSesion() {
+      this.logout();
+      this.$router.push("/login");
+    },
   },
 };
 </script>

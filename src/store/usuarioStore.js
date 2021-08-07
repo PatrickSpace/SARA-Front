@@ -44,12 +44,16 @@ export default {
           msg: "Usuarios recuperados",
         };
       } catch (error) {
+        let msg = "OCurrió un error";
+        if (error.response.data.msg) {
+          msg = error.response.data.msg;
+        }
         notificacion = {
           tipo: "error",
           color: "red",
-          msg: "Ocurrió un error",
+          msg: msg,
         };
-        console.log(error);
+        console.log(error.data);
       }
       return notificacion;
     },
@@ -69,12 +73,16 @@ export default {
           msg: "Profesores recuperados",
         };
       } catch (error) {
+        let msg = "OCurrió un error";
+        if (error.response.data.msg) {
+          msg = error.response.data.msg;
+        }
         notificacion = {
           tipo: "error",
           color: "red",
-          msg: "Ocurrió un error",
+          msg: msg,
         };
-        console.log(error);
+        console.log(error.data);
       }
       return notificacion;
     },
@@ -91,12 +99,16 @@ export default {
           msg: "Coordinadores recuperados",
         };
       } catch (error) {
+        let msg = "OCurrió un error";
+        if (error.response.data.msg) {
+          msg = error.response.data.msg;
+        }
         notificacion = {
           tipo: "error",
           color: "red",
-          msg: "Ocurrió un error",
+          msg: msg,
         };
-        console.log(error);
+        console.log(error.data);
       }
       return notificacion;
     },
@@ -113,12 +125,16 @@ export default {
           msg: "Directores recuperados",
         };
       } catch (error) {
+        let msg = "OCurrió un error";
+        if (error.response.data.msg) {
+          msg = error.response.data.msg;
+        }
         notificacion = {
           tipo: "error",
           color: "red",
-          msg: "Ocurrió un error",
+          msg: msg,
         };
-        console.log(error);
+        console.log(error.data);
       }
       return notificacion;
     },

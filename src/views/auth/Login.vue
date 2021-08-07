@@ -49,7 +49,7 @@
 </template>
 <script>
 import NotificationList from "@/components/Common/NotificationList.vue";
-import { mapMutations, mapActions } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "Loginview",
   components: {
@@ -70,8 +70,10 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setToken"]),
-    ...mapActions({ addnoti: "noti/agregarNotificacion" }),
+    ...mapActions({
+      addnoti: "noti/agregarNotificacion",
+      setLocalToken: "setLocalToken",
+    }),
     async login() {
       try {
         this.loading = true;
@@ -79,16 +81,23 @@ export default {
           usuario: this.user,
           password: this.psw,
         });
-        this.setToken(result.data.token);
-        localStorage.setItem("token", result.data.token);
+        const token = result.data.token;
+        this.setLocalToken(token);
+        const now = new Date();
+        const expira = now.getTime() + 86400000;
+        localStorage.setItem("expira", expira);
         this.$router.push("/");
       } catch (error) {
-        const notificacion = {
-          tipo: "error",
-          color: "red",
-          msg: error.response.data.msg,
-        };
-        this.addnoti(notificacion);
+        if (error.response) {
+          const msg = error.response.data.msg;
+          const notificacion = {
+            tipo: "error",
+            color: "red",
+            msg: msg,
+          };
+          this.addnoti(notificacion);
+        }
+        console.log(error);
       } finally {
         this.loading = false;
       }

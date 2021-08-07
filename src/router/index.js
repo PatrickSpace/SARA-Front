@@ -39,12 +39,12 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  store.dispatch("leerToken");
+  store.dispatch("leerToken", to.name);
   const token = store.getters.getToken;
   const isprotegida = to.matched.some((ruta) => ruta.meta.protegida);
   if (isprotegida && token === null) {
-    next("/login");
     console.log("no tienes acceso");
+    next("/login");
   } else if (token && !isprotegida) {
     next();
   } else {
