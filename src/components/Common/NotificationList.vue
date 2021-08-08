@@ -3,9 +3,11 @@
     <Notification
       v-for="(noti, i) in notificaciones"
       :key="i"
+      v-bind:index="i"
       v-bind:tipo="noti.tipo"
       v-bind:color="noti.color"
       v-bind:msg="noti.msg"
+      v-bind:visible="noti.visible"
     />
   </div>
 </template>
@@ -17,10 +19,7 @@ export default {
   components: {
     Notification,
   },
-  data: () => ({
-    msg: "Hola",
-    activo: true,
-  }),
+  data: () => ({}),
   computed: {
     ...mapGetters({ notificaciones: "noti/getNotifications" }),
   },
@@ -31,11 +30,12 @@ export default {
 .notificationlist {
   position: fixed;
   right: 0;
-  bottom: 0;
+  top: 10vh;
   padding-right: 15px;
   padding-bottom: 5px;
   min-width: 30%;
   display: block;
   transition: 1s;
+  z-index: 1;
 }
 </style>

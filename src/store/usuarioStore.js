@@ -1,4 +1,5 @@
 const apiobject = "/user";
+
 export default {
   namespaced: true,
   state: {
@@ -28,38 +29,8 @@ export default {
     },
   },
   actions: {
-    async getAllusers({ commit }) {
-      const url = apiobject;
-      let notificacion = null;
-      try {
-        const result = await axios.get(url, Headers);
-        const usuarios = result.data.items.map((user) => {
-          user.proyectos = user.proyectos.length;
-          return user;
-        });
-        commit("setUsuarios", usuarios);
-        notificacion = {
-          tipo: "success",
-          color: "green",
-          msg: "Usuarios recuperados",
-        };
-      } catch (error) {
-        let msg = "OCurrió un error";
-        if (error.response.data.msg) {
-          msg = error.response.data.msg;
-        }
-        notificacion = {
-          tipo: "error",
-          color: "red",
-          msg: msg,
-        };
-        console.log(error.data);
-      }
-      return notificacion;
-    },
-    async getProfesores({ commit }) {
+    async getProfesores({ commit, dispatch }) {
       const url = apiobject + "/profesores";
-      let notificacion = null;
       try {
         const result = await axios.get(url);
         const usuarios = result.data.items.map((user) => {
@@ -67,76 +38,53 @@ export default {
           return user;
         });
         commit("setProfesores", usuarios);
-        notificacion = {
-          tipo: "success",
-          color: "green",
-          msg: "Profesores recuperados",
-        };
+        dispatch("noti/agregarNotificacionExitosa", "Profesores recuperados", {
+          root: true,
+        });
       } catch (error) {
-        let msg = "OCurrió un error";
+        let msg = null;
         if (error.response.data.msg) {
           msg = error.response.data.msg;
         }
-        notificacion = {
-          tipo: "error",
-          color: "red",
-          msg: msg,
-        };
-        console.log(error.data);
+        dispatch("noti/agregarNotificacionErronea", msg, { root: true });
       }
-      return notificacion;
     },
-    async getCoordinadores({ commit }) {
+    async getCoordinadores({ commit, dispatch }) {
       const url = apiobject + "/coordinadores";
-      let notificacion = null;
       try {
         const result = await axios.get(url);
         const usuarios = result.data.items;
         commit("setCoordinadores", usuarios);
-        notificacion = {
-          tipo: "success",
-          color: "green",
-          msg: "Coordinadores recuperados",
-        };
+        dispatch(
+          "noti/agregarNotificacionExitosa",
+          "Coordinadores recuperados",
+          {
+            root: true,
+          }
+        );
       } catch (error) {
-        let msg = "OCurrió un error";
+        let msg = null;
         if (error.response.data.msg) {
           msg = error.response.data.msg;
         }
-        notificacion = {
-          tipo: "error",
-          color: "red",
-          msg: msg,
-        };
-        console.log(error.data);
+        dispatch("noti/agregarNotificacionErronea", msg, { root: true });
       }
-      return notificacion;
     },
-    async getDirectores({ commit }) {
+    async getDirectores({ commit, dispatch }) {
       const url = apiobject + "/directores";
-      let notificacion = null;
       try {
         const result = await axios.get(url);
-        const usuarios = result.data.items;
-        commit("setDirectores", usuarios);
-        notificacion = {
-          tipo: "success",
-          color: "green",
-          msg: "Directores recuperados",
-        };
+        commit("setDirectores", result.data.items);
+        dispatch("noti/agregarNotificacionExitosa", "Directores recuperados", {
+          root: true,
+        });
       } catch (error) {
-        let msg = "OCurrió un error";
+        let msg = null;
         if (error.response.data.msg) {
           msg = error.response.data.msg;
         }
-        notificacion = {
-          tipo: "error",
-          color: "red",
-          msg: msg,
-        };
-        console.log(error.data);
+        dispatch("noti/agregarNotificacionErronea", msg, { root: true });
       }
-      return notificacion;
     },
     getUserbyID() {},
   },

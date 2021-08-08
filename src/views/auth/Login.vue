@@ -31,18 +31,17 @@
             ></v-text-field>
           </v-container>
           <v-card-actions>
-            <v-btn :loading="loading" class="primary" type="submit" block
+            <v-btn
+              :loading="loading"
+              class="primary"
+              type="submit"
+              block
+              v-on:keyup.enter="submit"
               >Ingresar</v-btn
             >
           </v-card-actions>
         </v-form>
       </v-card>
-      <v-snackbar color="error" v-model="snackbar" timeout="6000">
-        {{ msg }}
-        <template v-slot:action="{ attrs }">
-          <v-btn text v-bind="attrs" @click="snackbar = false">Close</v-btn>
-        </template>
-      </v-snackbar>
     </v-main>
     <NotificationList />
   </v-app>
@@ -60,7 +59,7 @@ export default {
       loading: false,
       validlogin: true,
       show: false,
-      snackbar: false,
+
       msg: "",
       user: "director",
       psw: "root",

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "@/router";
+import axios from "axios";
 Vue.use(Vuex);
 
 import usuarioStore from "./usuarioStore";
@@ -26,20 +27,22 @@ export default new Vuex.Store({
       const token = localStorage.getItem("token");
       const expira = localStorage.getItem("expira");
       const expirado = now.getTime() > expira;
-      if (token && expira) {
+      if (token && expirado) {
         if (expirado) {
           dispatch("logout");
-          const notificacion = {
-            tipo: "error",
-            color: "red",
-            msg: "Su sesión ha expirado. Por favor, inicie sesión de nuevo.",
-          };
+          dispatch(
+            "noti/agregarNotificacionErronea",
+            "Su sesion ha expirado, por favor inicie sesión de nuevo"
+          );
           if (payload === "login") {
             console.log("token expirado en ruta login");
+            dispatch(
+              "noti/agregarNotificacionErronea",
+              "Su sesion ha expirado, por favor inicie sesión de nuevo"
+            );
           } else {
             router.push("login");
           }
-          dispatch("noti/agregarNotificacion", notificacion);
         } else dispatch("setLocalToken", token);
       } else {
         dispatch("logout");
@@ -50,9 +53,10 @@ export default new Vuex.Store({
       localStorage.removeItem("expira");
       commit("setToken", null);
     },
-    setLocalToken({ commit }, token) {
+    setLocalToken({ commit, state }, token) {
       localStorage.setItem("token", token);
       commit("setToken", token);
+      axios.defaults.headers["x-access-token"] = localStorage.getItem("token");
     },
   },
   modules: {

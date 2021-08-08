@@ -43,13 +43,11 @@ export default {
   methods: {
     ...mapActions({
       getUsersfromapi: "usuario/getProfesores",
-      addnoti: "noti/agregarNotificacion",
     }),
     async obtenenerdatos() {
       try {
         this.loading = true;
-        const notificacion = await this.getUsersfromapi();
-        this.addnoti(notificacion);
+        await this.getUsersfromapi();
       } catch (e) {
         console.log(e);
       } finally {
