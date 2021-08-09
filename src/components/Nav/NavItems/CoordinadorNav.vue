@@ -20,7 +20,6 @@ export default {
     return {
       items: [
         { title: "Home", icon: "mdi-view-dashboard", link: "/" },
-        { title: "Usuarios", icon: "mdi-account-group", link: "/usuarios" },
         {
           title: "Proyectos",
           icon: "mdi-file-document-multiple",

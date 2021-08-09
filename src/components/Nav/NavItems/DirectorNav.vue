@@ -26,6 +26,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
+
       <v-list-item :to="item.link" v-for="(item, i) in items" :key="i" link>
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
@@ -47,7 +48,7 @@ export default {
         {
           title: "Proyectos",
           icon: "mdi-file-document-multiple",
-          link: "user/proyectos",
+          link: "/proyectos",
         },
       ],
       usuarios: [

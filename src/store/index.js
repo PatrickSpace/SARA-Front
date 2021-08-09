@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 import usuarioStore from "./usuarioStore";
 import NotificationStore from "./NotificationStore";
+import proyectoStore from "./proyectoStore";
 
 export default new Vuex.Store({
   state: {
@@ -53,7 +54,7 @@ export default new Vuex.Store({
       localStorage.removeItem("expira");
       commit("setToken", null);
     },
-    setLocalToken({ commit, state }, token) {
+    setLocalToken({ commit }, token) {
       localStorage.setItem("token", token);
       commit("setToken", token);
       axios.defaults.headers["x-access-token"] = localStorage.getItem("token");
@@ -62,5 +63,6 @@ export default new Vuex.Store({
   modules: {
     usuario: usuarioStore,
     noti: NotificationStore,
+    proyecto: proyectoStore,
   },
 });

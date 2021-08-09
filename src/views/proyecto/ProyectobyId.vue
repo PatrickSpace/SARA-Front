@@ -1,7 +1,7 @@
 <template>
-  <Defaultlayout>
+  <Defaultlayout titulo="proyecto by id">
     <section slot="contenido">
-      <h1>proyectos N°:</h1>
+      <h1>proyectos N°: {{ id }}</h1>
     </section>
   </Defaultlayout>
 </template>
@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-     // id: $route.params.id,
+      id: this.$route.params.id,
     };
   },
 };

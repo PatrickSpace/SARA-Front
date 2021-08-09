@@ -40,7 +40,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  //console.log(localStorage.getItem("token"));
   store.dispatch("leerToken", to.name);
   const token = store.getters.getToken;
   const isprotegida = to.matched.some((ruta) => ruta.meta.protegida);

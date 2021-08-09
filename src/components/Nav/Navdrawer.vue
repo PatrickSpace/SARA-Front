@@ -20,7 +20,10 @@
       </v-list-item-group>
       <v-divider></v-divider>
     </template>
-    <DirectorNav />
+
+    <DirectorNav v-if="rol === 'director'" />
+    <CoordinadorNav v-if="rol === 'coordinador'" />
+
     <template v-slot:append>
       <v-list-item-group>
         <v-list-item link @click.stop="cerrarSesion()">
@@ -46,6 +49,11 @@ export default {
     ProfesorNav,
     DirectorNav,
     CoordinadorNav,
+  },
+  data() {
+    return {
+      rol: "director",
+    };
   },
   methods: {
     ...mapActions(["logout"]),
