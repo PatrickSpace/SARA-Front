@@ -70,7 +70,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      addnoti: "noti/agregarNotificacion",
+      addsuccessnoti: "noti/agregarNotificacionExitosa",
+      adderrornoti: "noti/agregarNotificacionErronea",
       setLocalToken: "setLocalToken",
     }),
     async login() {
@@ -83,20 +84,16 @@ export default {
         const token = result.data.token;
         this.setLocalToken(token);
         const now = new Date();
-        const expira = now.getTime() + 86400000;
+        const expira = now.getTime() + 86400000; //24h
         localStorage.setItem("expira", expira);
+        this.addsuccessnoti("Inicio de sesión correcto");
         this.$router.push("/");
       } catch (error) {
-        if (error.response) {
-          const msg = error.response.data.msg;
-          const notificacion = {
-            tipo: "error",
-            color: "red",
-            msg: msg,
-          };
-          this.addnoti(notificacion);
+        let msg = null;
+        if (error.response.data.msg) {
+          msg = error.response.data.msg;
         }
-        console.log(error);
+        this.adderrornoti(msg);
       } finally {
         this.loading = false;
       }

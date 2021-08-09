@@ -27,7 +27,7 @@ export default new Vuex.Store({
       const token = localStorage.getItem("token");
       const expira = localStorage.getItem("expira");
       const expirado = now.getTime() > expira;
-      if (token && expirado) {
+      if (token && expira) {
         if (expirado) {
           dispatch("logout");
           dispatch(
