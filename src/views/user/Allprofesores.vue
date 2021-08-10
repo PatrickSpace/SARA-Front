@@ -7,13 +7,20 @@
         v-bind:cabecera="headers"
         v-bind:valores="getUsers"
         v-bind:loading="loading"
+        v-bind:deleteRoute="StoreDelString"
       />
+      <v-fab-transition>
+        <v-btn color="primary" fab dark fixed bottom right>
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
     </section>
   </Defaultlayout>
 </template>
 <script>
 import Defaultlayout from "@/layouts/Defaultlayout.vue";
 import Datatable from "@/components/Common/DataTable.vue";
+import Addbutton from "@/components/Common/Addbutton.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -21,14 +28,15 @@ export default {
   components: {
     Datatable,
     Defaultlayout,
+    Addbutton,
   },
   data() {
     return {
-      aux: [],
       titulo: "Profesores",
       loading: false,
       tableTitulo: "Todos los profesores",
       labelbusqueda: "Buscar por nombre",
+      StoreDelString: "usuario/",
       headers: [
         {
           text: "Nombre",
@@ -37,6 +45,7 @@ export default {
         },
         { text: "Usuario", value: "usuario" },
         { text: "Cantidad de proyectos", value: "proyectos" },
+        { text: "Actions", value: "actions", sortable: false },
       ],
     };
   },

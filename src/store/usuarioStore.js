@@ -87,5 +87,21 @@ export default {
       }
     },
     getUserbyID() {},
+    async borrarUsuario({ dispatch }, id) {
+      const url = apiobject + "/" + id;
+      try {
+        const result = await axios.delete(url);
+        dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
+          root: true,
+        });
+      } catch (error) {
+        let msg = null;
+        if (error.response.data.msg) {
+          msg = error.response.data.msg;
+        }
+        dispatch("noti/agregarNotificacionErronea", msg, { root: true });
+      }
+    },
+    updateUsuario() {},
   },
 };
