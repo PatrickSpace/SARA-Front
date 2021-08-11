@@ -16,7 +16,7 @@
 <script>
 import Defaultlayout from "@/layouts/Defaultlayout.vue";
 import Datatable from "@/components/Common/DataTable.vue";
-import Adduser from "@/components/Modules/User/Adduser.vue";
+import Adduser from "@/components/Modulos/User/Adduser.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
