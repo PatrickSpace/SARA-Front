@@ -103,5 +103,28 @@ export default {
       }
     },
     updateUsuario() {},
+    async addUsuario({ dispatch }, usuario) {
+      try {
+        const result = await axios.post(apiobject, usuario);
+        dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
+          root: true,
+        });
+      } catch (error) {
+        let errores = [];
+        if (error.response.data.msg) {
+          errores = error.response.data.msg;
+        }
+
+        if (errores.length > 0) {
+          errores.forEach((e) => {
+            dispatch("noti/agregarNotificacionErronea", e, {
+              root: true,
+            });
+          });
+        } else {
+          dispatch("noti/agregarNotificacionErronea", null, { root: true });
+        }
+      }
+    },
   },
 };

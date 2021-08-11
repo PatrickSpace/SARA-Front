@@ -9,18 +9,14 @@
         v-bind:loading="loading"
         v-bind:deleteRoute="StoreDelString"
       />
-      <v-fab-transition>
-        <v-btn color="primary" fab dark fixed bottom right>
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </v-fab-transition>
+      <Adduser />
     </section>
   </Defaultlayout>
 </template>
 <script>
 import Defaultlayout from "@/layouts/Defaultlayout.vue";
 import Datatable from "@/components/Common/DataTable.vue";
-import Addbutton from "@/components/Common/Addbutton.vue";
+import Adduser from "@/components/Modules/User/Adduser.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -28,7 +24,7 @@ export default {
   components: {
     Datatable,
     Defaultlayout,
-    Addbutton,
+    Adduser,
   },
   data() {
     return {
@@ -45,7 +41,7 @@ export default {
         },
         { text: "Usuario", value: "usuario" },
         { text: "Cantidad de proyectos", value: "proyectos" },
-        { text: "Actions", value: "actions", sortable: false },
+        { text: "Detalle", value: "actions", sortable: false },
       ],
     };
   },

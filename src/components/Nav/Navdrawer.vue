@@ -1,14 +1,15 @@
 <template>
   <v-navigation-drawer
+    color="primary"
     disable-route-watcher
-    light
+    dark
     app
     permanent
     expand-on-hover
   >
     <template v-slot:prepend>
-      <v-list-item-group color="primary">
-        <v-list-item two-line link>
+      <v-list-item-group>
+        <v-list-item color="white" two-line link to="/perfil">
           <v-list-item-icon>
             <v-icon> mdi-account-circle </v-icon>
           </v-list-item-icon>
@@ -28,7 +29,7 @@
       <v-list-item-group>
         <v-list-item link @click.stop="cerrarSesion()">
           <v-list-item-icon>
-            <v-icon color="red">mdi-power</v-icon>
+            <v-icon color="red lighten-2">mdi-power</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Cerrar sesión</v-list-item-title>

@@ -24,36 +24,17 @@
         </v-toolbar>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon class="mr-2" @click="editItem(item)" color="primary">
-          mdi-pencil
+        <v-btn @click.stop="showdetailItem(item)"  icon >
+        <v-icon  small color="primary">
+          mdi-open-in-new
         </v-icon>
-        <v-icon @click.stop="showdeldialog(item)" color="red">
-          mdi-delete
-        </v-icon>
+        </v-btn>
       </template>
     </v-data-table>
-    <v-dialog v-model="dialog" max-width="400">
-      <v-card class="py-2">
-        <v-card-title class="text-h5"> Advertencia </v-card-title>
-        <v-card-text>
-          Esta acción borrará permanentemente el item seleccionado. ¿Desea
-          continuar?
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="darken-1" text @click="dialog = false">
-            Cancelar
-          </v-btn>
-          <v-btn color="red darken-1" text @click="deleteItem()">
-            Borrar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    
   </v-card>
 </template>
 <script>
-import { mapActions } from "vuex";
 import Addbutton from "@/components/Common/Addbutton.vue";
 export default {
   name: "Datatable",
@@ -66,29 +47,19 @@ export default {
     cabecera: Array,
     valores: Array,
     loading: Boolean,
-    deleteRoute: String,
   },
   data() {
     return {
       search: "",
-      dialog: false,
       itemId: 0,
     };
   },
   methods: {
-    editItem(item) {
-      console.log(item._id);
+    showdetailItem(item) {
+      //console.log(item._id);
+      this.$router.push({name:'UserDetail', params:{id: item._id}})
     },
-    deleteItem() {
-      console.log(this.itemId);
-    },
-    showdeldialog(item) {
-      this.dialog = true;
-      this.itemId = item._id;
-    },
-    ...mapActions({
-      deletefromAPI: deleteRoute,
-    }),
+    
   },
 };
 </script>

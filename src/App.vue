@@ -1,12 +1,13 @@
 <template>
-  <section>
+  <transition name="fade" mode="in-out" appear>
     <router-view></router-view>
-  </section>
+  </transition>
 </template>
 
 <script>
-
 export default {
   name: "App",
 };
 </script>
+
+

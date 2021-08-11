@@ -30,12 +30,12 @@ export default {
 .notificationlist {
   position: fixed;
   right: 0;
-  top: 10vh;
+  top: 2vh;
   padding-right: 15px;
   padding-bottom: 5px;
   min-width: 30%;
   display: block;
   transition: 1s;
-  z-index: 1;
+  z-index: 205;
 }
 </style>

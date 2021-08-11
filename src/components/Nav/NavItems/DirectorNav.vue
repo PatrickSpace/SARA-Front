@@ -10,7 +10,12 @@
     </v-list-item>
 
     <v-list-item-group>
-      <v-list-group :value="false" prepend-icon="mdi-account-group" no-action>
+      <v-list-group
+        color="white"
+        :value="false"
+        prepend-icon="mdi-account-group"
+        no-action
+      >
         <template v-slot:activator>
           <v-list-item-title>Usuarios</v-list-item-title>
         </template>
