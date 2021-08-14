@@ -7,6 +7,7 @@
         v-bind:cabecera="headers"
         v-bind:valores="getProyectos"
         v-bind:loading="loading"
+        v-bind:tipodedato="tipo"
       />
     </section>
   </Defaultlayout>
@@ -28,9 +29,11 @@ export default {
       tableTitulo: "Todos los proyectos",
       labelbusqueda: "Buscar por nombre o codigo",
       loading: false,
+      tipo: "proyecto",
       headers: [
         { text: "Nombre", value: "nombre" },
-        { text: "Codigo", value: "cod" },
+        { text: "Codigo", value: "codigo" },
+        { text: "Detalle", value: "actions", sortable: false },
       ],
     };
   },

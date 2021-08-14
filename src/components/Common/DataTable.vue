@@ -24,14 +24,11 @@
         </v-toolbar>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn @click.stop="showdetailItem(item)"  icon >
-        <v-icon  small color="primary">
-          mdi-open-in-new
-        </v-icon>
+        <v-btn @click.stop="showdetailItem(item)" icon>
+          <v-icon small color="primary"> mdi-open-in-new </v-icon>
         </v-btn>
       </template>
     </v-data-table>
-    
   </v-card>
 </template>
 <script>
@@ -47,6 +44,7 @@ export default {
     cabecera: Array,
     valores: Array,
     loading: Boolean,
+    tipodedato: String,
   },
   data() {
     return {
@@ -57,9 +55,12 @@ export default {
   methods: {
     showdetailItem(item) {
       //console.log(item._id);
-      this.$router.push({name:'UserDetail', params:{id: item._id}})
+      if (this.tipodedato === "usuario") {
+        this.$router.push({ name: "UserDetail", params: { id: item._id } });
+      } else if (this.tipodedato === "proyecto") {
+        this.$router.push({ name: "ProyectDetalle", params: { id: item._id } });
+      }
     },
-    
   },
 };
 </script>

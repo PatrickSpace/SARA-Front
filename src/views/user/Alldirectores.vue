@@ -7,6 +7,7 @@
         v-bind:cabecera="headers"
         v-bind:valores="getUsers"
         v-bind:loading="loading"
+          v-bind:tipodedato="tipo"
       />
     </section>
   </Defaultlayout>
@@ -28,6 +29,7 @@ export default {
       loading: false,
       tableTitulo: "Todos los directores",
       labelbusqueda: "Buscar por nombre",
+       tipo: "usuario",
       headers: [
         {
           text: "Nombre",
