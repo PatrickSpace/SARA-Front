@@ -7,7 +7,6 @@
         v-bind:cabecera="headers"
         v-bind:valores="getUsers"
         v-bind:loading="loading"
-        v-bind:deleteRoute="StoreDelString"
       />
       <Adduser />
     </section>
@@ -32,7 +31,6 @@ export default {
       loading: false,
       tableTitulo: "Todos los profesores",
       labelbusqueda: "Buscar por nombre",
-      StoreDelString: "usuario/",
       headers: [
         {
           text: "Nombre",

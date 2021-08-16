@@ -95,11 +95,19 @@ export default {
           root: true,
         });
       } catch (error) {
-        let msg = null;
+        let errores = [];
         if (error.response.data.msg) {
-          msg = error.response.data.msg;
+          errores = error.response.data.msg;
         }
-        dispatch("noti/agregarNotificacionErronea", msg, { root: true });
+        if (errores.length > 0) {
+          errores.forEach((e) => {
+            dispatch("noti/agregarNotificacionErronea", e, {
+              root: true,
+            });
+          });
+        } else {
+          dispatch("noti/agregarNotificacionErronea", null, { root: true });
+        }
       }
     },
     updateUsuario() {},

@@ -84,6 +84,9 @@
 import { mapActions } from "vuex";
 export default {
   name: "Adduser",
+  props: {
+    tipo: String,
+  },
   data() {
     return {
       dialog: false,
@@ -96,7 +99,6 @@ export default {
         { texto: "Coordinador", valor: ["profesor", "coordinador"] },
         { texto: "Director", valor: ["profesor", "coordinador", "director"] },
       ],
-
       usuario: {
         nombre: "bert",
         usuario: "ed",
@@ -110,6 +112,9 @@ export default {
   methods: {
     ...mapActions({
       addUserfromAPI: "usuario/addUsuario",
+      getProfesores: "usuario/getProfesores",
+      getDirectores: "usuario/getDirectores",
+      getCoordinadores: "usuario/getCoordinadores",
     }),
     async adduser() {
       if (this.$refs.form.validate()) {
@@ -119,6 +124,23 @@ export default {
           const usuariotoadd = JSON.stringify(this.usuario);
           await this.addUserfromAPI(usuariotoadd);
           this.cancelar();
+          if (this.select.texto) {
+            switch (this.select.texto) {
+              case "Profesor":
+                this.getProfesores();
+                break;
+              case "Director":
+                this.getDirectores();
+                break;
+              case "Coordinador":
+                this.getCoordinadores();
+              default:
+                this.getProfesores();
+                this.getDirectores();
+                this.getCoordinadores();
+                break;
+            }
+          }
         } catch (e) {
           console.log(e.response);
         } finally {

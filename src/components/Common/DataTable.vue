@@ -24,18 +24,19 @@
         </v-toolbar>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn @click.stop="showdetailItem(item)"  icon >
-        <v-icon  small color="primary">
-          mdi-open-in-new
-        </v-icon>
+        <v-btn @click.stop="showdetailItem(item)" icon>
+          <v-icon small color="primary"> mdi-open-in-new </v-icon>
+        </v-btn>
+        <v-btn :loading="cargar" @click.stop="deleteItem(item)" icon>
+          <v-icon small color="error"> mdi-delete</v-icon>
         </v-btn>
       </template>
     </v-data-table>
-    
   </v-card>
 </template>
 <script>
 import Addbutton from "@/components/Common/Addbutton.vue";
+import { mapActions } from "vuex";
 export default {
   name: "Datatable",
   components: {
@@ -52,14 +53,27 @@ export default {
     return {
       search: "",
       itemId: 0,
+      cargar: false,
     };
   },
   methods: {
+    ...mapActions({
+      borraritem: "usuario/borrarUsuario",
+    }),
     showdetailItem(item) {
-      //console.log(item._id);
-      this.$router.push({name:'UserDetail', params:{id: item._id}})
+      this.$router.push({ name: "UserDetail", params: { id: item._id } });
     },
-    
+    deleteItem(item) {
+      try {
+        this.cargar = true;
+        //this.borraritem(item._id);
+        console.log(item.roles);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.cargar = false;
+      }
+    },
   },
 };
 </script>

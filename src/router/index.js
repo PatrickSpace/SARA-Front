@@ -45,10 +45,13 @@ router.beforeEach((to, from, next) => {
   const isprotegida = to.matched.some((ruta) => ruta.meta.protegida);
   if (isprotegida && token === null) {
     console.log("no tienes acceso");
-    store.dispatch(
-      "noti/agregarNotificacionErronea",
-      "No tiene permisos para entrar a esta ruta"
-    );
+
+    if (to.name !== "home") {
+      store.dispatch(
+        "noti/agregarNotificacionErronea",
+        "No tiene permisos para ingresar a esta ruta, inicie sesión nuevamente"
+      );
+    }
     next("/login");
   } else if (token && !isprotegida) {
     next();

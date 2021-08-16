@@ -8,12 +8,14 @@
         v-bind:valores="getUsers"
         v-bind:loading="loading"
       />
+      <Adduser />
     </section>
   </Defaultlayout>
 </template>
 <script>
 import Defaultlayout from "@/layouts/Defaultlayout.vue";
 import Datatable from "@/components/Common/DataTable.vue";
+import Adduser from "@/components/Modulos/User/Adduser.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -21,6 +23,7 @@ export default {
   components: {
     Datatable,
     Defaultlayout,
+    Adduser,
   },
   data() {
     return {
@@ -35,6 +38,7 @@ export default {
           value: "nombre",
         },
         { text: "Usuario", value: "usuario" },
+        { text: "Detalle", value: "actions", sortable: false },
       ],
     };
   },
