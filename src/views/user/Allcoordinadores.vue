@@ -7,6 +7,7 @@
         v-bind:cabecera="headers"
         v-bind:valores="getUsers"
         v-bind:loading="loading"
+        v-bind:tipodedato="tipo"
       />
       <Adduser />
     </section>
@@ -31,6 +32,7 @@ export default {
       loading: false,
       tableTitulo: "Todos los coordinadores",
       labelbusqueda: "Buscar por nombre",
+      tipo: "usuario",
       headers: [
         {
           text: "Nombre",

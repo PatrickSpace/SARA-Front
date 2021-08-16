@@ -1,5 +1,5 @@
 <template>
-  <Defaultlayout titulo="proyecto by id">
+  <Defaultlayout v-bind:titulo="titulo">
     <section slot="contenido">
       <h1>proyectos N°: {{ id }}</h1>
     </section>
@@ -14,8 +14,12 @@ export default {
   },
   data() {
     return {
+      titulo: "Detalle del proyecto",
       id: this.$route.params.id,
     };
   },
+  computed:{
+   
+  }
 };
 </script>

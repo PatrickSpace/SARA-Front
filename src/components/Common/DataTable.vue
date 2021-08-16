@@ -27,9 +27,6 @@
         <v-btn @click.stop="showdetailItem(item)" icon>
           <v-icon small color="primary"> mdi-open-in-new </v-icon>
         </v-btn>
-        <v-btn :loading="cargar" @click.stop="deleteItem(item)" icon>
-          <v-icon small color="error"> mdi-delete</v-icon>
-        </v-btn>
       </template>
     </v-data-table>
   </v-card>
@@ -48,6 +45,7 @@ export default {
     cabecera: Array,
     valores: Array,
     loading: Boolean,
+    tipodedato: String,
   },
   data() {
     return {
@@ -61,17 +59,11 @@ export default {
       borraritem: "usuario/borrarUsuario",
     }),
     showdetailItem(item) {
-      this.$router.push({ name: "UserDetail", params: { id: item._id } });
-    },
-    deleteItem(item) {
-      try {
-        this.cargar = true;
-        //this.borraritem(item._id);
-        console.log(item.roles);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        this.cargar = false;
+      //console.log(item._id);
+      if (this.tipodedato === "usuario") {
+        this.$router.push({ name: "UserDetail", params: { id: item._id } });
+      } else if (this.tipodedato === "proyecto") {
+        this.$router.push({ name: "ProyectDetalle", params: { id: item._id } });
       }
     },
   },
