@@ -31,14 +31,14 @@ export default {
       }
     },
     async getProyectobyId({ commit, dispatch }, id) {
-      const url = apiobject + "/" + id;
+      const url = apiobject + "/" + id; //url/api/proyecto/id
       try {
         const result = await axios.get(url);
-        const proyecto = result;
-        console.log(proyecto);
+        const proyecto = result.data.proyectofound;
         dispatch("noti/agregarNotificacionExitosa", "Proyecto recuperado", {
           root: true,
         });
+        return proyecto;
       } catch (error) {
         let msg = null;
         if (error.response.data.msg) {
@@ -46,6 +46,6 @@ export default {
         }
         dispatch("noti/agregarNotificacionErronea", msg, { root: true });
       }
-    }
+    },
   },
 };

@@ -9,6 +9,7 @@
         v-bind:loading="loading"
         v-bind:tipodedato="tipo"
       />
+      <Addproyecto />
     </section>
   </Defaultlayout>
 </template>
@@ -16,12 +17,14 @@
 <script>
 import Defaultlayout from "@/layouts/Defaultlayout.vue";
 import Datatable from "@/components/Common/DataTable.vue";
+import Addproyecto from "@/components/Modulos/Proyecto/Addproyecto.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Allproyectos",
   components: {
     Defaultlayout,
     Datatable,
+    Addproyecto,
   },
   data() {
     return {

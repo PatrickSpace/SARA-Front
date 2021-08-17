@@ -27,6 +27,9 @@
         <v-btn @click.stop="showdetailItem(item)" icon>
           <v-icon small color="primary"> mdi-open-in-new </v-icon>
         </v-btn>
+        <v-btn @click.stop="deleteItem(item)" icon>
+          <v-icon small color="red"> mdi-delete </v-icon>
+        </v-btn>
       </template>
     </v-data-table>
   </v-card>
@@ -59,11 +62,15 @@ export default {
       borraritem: "usuario/borrarUsuario",
     }),
     showdetailItem(item) {
-      //console.log(item._id);
       if (this.tipodedato === "usuario") {
         this.$router.push({ name: "UserDetail", params: { id: item._id } });
       } else if (this.tipodedato === "proyecto") {
         this.$router.push({ name: "ProyectDetalle", params: { id: item._id } });
+      }
+    },
+    deleteItem() {
+      if (this.tipodedato === "usuario") {
+      } else if (this.tipodedato === "proyecto") {
       }
     },
   },
