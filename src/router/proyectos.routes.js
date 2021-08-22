@@ -3,7 +3,7 @@ import Detail from "@/views/proyecto/ProyectobyId.vue";
 
 export default {
   home: {
-    name: "ProyectoHome",
+    name: "Allproyectos",
     path: "/proyectos",
     component: Home,
     meta: { protegida: true },

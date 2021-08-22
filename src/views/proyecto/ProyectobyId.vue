@@ -111,23 +111,28 @@
               </v-scroll-x-transition>
             </v-col>
           </v-row>
+
+          <ActionFButton v-if="isDirector" v-bind:id="id" tipo="project" />
         </div>
       </v-fade-transition>
     </section>
   </Defaultlayout>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import Defaultlayout from "@/layouts/Defaultlayout.vue";
+import ActionFButton from "@/components/Common/ActionFButton.vue";
 export default {
   name: "ProyectobyId",
   components: {
     Defaultlayout,
+    ActionFButton,
   },
   data() {
     return {
       titulo: "Detalle del proyecto",
       id: this.$route.params.id,
+      isDirector: false,
       loading: false,
       docloading: false,
       agregar: false,
@@ -171,8 +176,12 @@ export default {
       }
     },
   },
-  created() {
+  computed: {
+    ...mapGetters({ rol: "getCurrentUserRol" }),
+  },
+  mounted() {
     this.getproyectofromAPI();
+    if (this.rol === "Director") this.isDirector = true;
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <v-list>
-    <v-list-item-group color="primary">
+    <v-list-item-group color="white">
       <v-list-item :to="item.link" v-for="(item, i) in items" :key="i" link>
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
@@ -21,7 +21,7 @@ export default {
       items: [
         { title: "Home", icon: "mdi-view-dashboard", link: "/" },
         {
-          title: "Proyectos",
+          title: "Todos los proyectos",
           icon: "mdi-file-document-multiple",
           link: "/proyectos",
         },

@@ -14,16 +14,16 @@
             <v-icon> mdi-account-circle </v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>Usuario</v-list-item-title>
-            <v-list-item-subtitle>Rol</v-list-item-subtitle>
+            <v-list-item-title>{{ getUser.nombre }}</v-list-item-title>
+            <v-list-item-subtitle>{{ getUser.rol }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
       <v-divider></v-divider>
     </template>
 
-    <DirectorNav v-if="rol === 'director'" />
-    <CoordinadorNav v-if="rol === 'coordinador'" />
+    <DirectorNav />
+    <CoordinadorNav />
 
     <template v-slot:append>
       <v-list-item-group>
@@ -40,7 +40,7 @@
   </v-navigation-drawer>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import ProfesorNav from "@/components/Nav/NavItems/ProfesorNav.vue";
 import DirectorNav from "@/components/Nav/NavItems/DirectorNav.vue";
 import CoordinadorNav from "@/components/Nav/NavItems/CoordinadorNav.vue";
@@ -62,6 +62,9 @@ export default {
       this.logout();
       this.$router.push("/login");
     },
+  },
+  computed: {
+    ...mapGetters({ getUser: "getCurrentUser" }),
   },
 };
 </script>

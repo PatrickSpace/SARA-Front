@@ -86,7 +86,24 @@ export default {
         dispatch("noti/agregarNotificacionErronea", msg, { root: true });
       }
     },
-    getUserbyID() {},
+    async getUserbyID({ dispatch }, id) {
+      const url = apiobject + "/" + id;
+
+      try {
+        const result = await axios.get(url);
+        const usuario = result.data;
+        dispatch("noti/agregarNotificacionExitosa", "Usuario recuperado", {
+          root: true,
+        });
+        console.log(usuario);
+      } catch (error) {
+        let msg = null;
+        if (error.response.data.msg) {
+          msg = error.response.data.msg;
+        }
+        dispatch("noti/agregarNotificacionErronea", msg, { root: true });
+      }
+    },
     async borrarUsuario({ dispatch }, id) {
       const url = apiobject + "/" + id;
       try {
@@ -113,7 +130,7 @@ export default {
     updateUsuario() {},
     async addUsuario({ dispatch }, usuario) {
       try {
-        const result = await axios.post(apiobject, usuario);
+        await axios.post(apiobject, usuario);
         dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
           root: true,
         });

@@ -11,10 +11,20 @@ import proyectoStore from "./proyectoStore";
 export default new Vuex.Store({
   state: {
     token: null,
+    currentusuario: {
+      nombre: "Quispe",
+      rol: "Director",
+    },
   },
   getters: {
     getToken: (state) => {
       return state.token;
+    },
+    getCurrentUser: (state) => {
+      return state.currentusuario;
+    },
+    getCurrentUserRol: (state) => {
+      return state.currentusuario.rol;
     },
   },
   mutations: {
