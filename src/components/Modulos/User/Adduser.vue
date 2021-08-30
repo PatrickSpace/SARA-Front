@@ -111,13 +111,15 @@ export default {
       rules: {
         nombreRules: [
           (v) => !!v || "Este campo es obligatorio",
-          (v) => v || "",
           (v) =>
             (v && v.length >= 5) ||
             "Este campo debe contener como mínimo 5 caracteres",
           (v) =>
             (v && v.length <= 50) ||
             "Este campo debe contener como máximo 50 caracteres",
+          (v) =>
+            !/[^a-zA-Z ]+/.test(v) || "Este campo solo debe contener letras",
+          // (v) => /[0-9]+/.test(v) || "Este campo no debe contener numeros",
         ],
         userRules: [
           (v) => !!v || "Este campo es obligatorio",
@@ -127,6 +129,7 @@ export default {
           (v) =>
             (v && v.length <= 30) ||
             "Este campo debe contener como máximo 50 caracteres",
+          //(v) => !/[0-9]+/.test(v) || "Este campo no debe contener numeros",
         ],
         pswRules: [
           (v) => !!v || "Este campo es obligatorio",

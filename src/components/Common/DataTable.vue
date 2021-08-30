@@ -27,16 +27,12 @@
         <v-btn @click.stop="showdetailItem(item)" icon>
           <v-icon small color="primary"> mdi-open-in-new </v-icon>
         </v-btn>
-        <v-btn @click.stop="deleteItem(item)" icon>
-          <v-icon small color="red"> mdi-delete </v-icon>
-        </v-btn>
       </template>
     </v-data-table>
   </v-card>
 </template>
 <script>
 import Addbutton from "@/components/Common/Addbutton.vue";
-import { mapActions } from "vuex";
 export default {
   name: "Datatable",
   components: {
@@ -58,19 +54,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions({
-      borraritem: "usuario/borrarUsuario",
-    }),
     showdetailItem(item) {
       if (this.tipodedato === "usuario") {
         this.$router.push({ name: "UserDetail", params: { id: item._id } });
       } else if (this.tipodedato === "proyecto") {
         this.$router.push({ name: "ProyectDetalle", params: { id: item._id } });
-      }
-    },
-    deleteItem() {
-      if (this.tipodedato === "usuario") {
-      } else if (this.tipodedato === "proyecto") {
       }
     },
   },

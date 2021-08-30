@@ -11,7 +11,7 @@
           <v-container>
             <v-text-field
               prepend-inner-icon="mdi-account"
-              v-model="user"
+              v-model="usuario.user"
               counter
               clearable
               :rules="userRules"
@@ -20,7 +20,7 @@
             ></v-text-field>
             <v-text-field
               prepend-inner-icon="mdi-lock"
-              v-model="psw"
+              v-model="usuario.psw"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :type="show ? 'text' : 'password'"
               :rules="pswRules"
@@ -59,41 +59,27 @@ export default {
       loading: false,
       validlogin: true,
       show: false,
-
       msg: "",
-      user: "director",
-      psw: "root",
-      //Los arrays es porque se le pueden agregar más validaciones segun las reglas del negocio
+      usuario: {
+        user: "director",
+        psw: "root",
+      },
       userRules: [(v) => !!v || "Este campo es obligatorio"],
       pswRules: [(v) => !!v || "Este campo es obligatorio"],
     };
   },
   methods: {
     ...mapActions({
-      addsuccessnoti: "noti/agregarNotificacionExitosa",
-      adderrornoti: "noti/agregarNotificacionErronea",
-      setLocalToken: "setLocalToken",
+      Login: "Login",
     }),
     async login() {
       try {
         this.loading = true;
-        const result = await axios.post("/auth/login", {
-          usuario: this.user,
-          password: this.psw,
-        });
-        const token = result.data.token;
-        this.setLocalToken(token);
-        const now = new Date();
-        const expira = now.getTime() + 86400000; //24h
-        localStorage.setItem("expira", expira);
-        this.addsuccessnoti("Inicio de sesión correcto");
-        this.$router.push("/");
-      } catch (error) {
-        let msg = null;
-        if (error.response.data.msg) {
-          msg = error.response.data.msg;
+        if (this.$refs.form.validate()) {
+          await this.Login(this.usuario);
         }
-        this.adderrornoti(msg);
+      } catch (error) {
+        console.log(error);
       } finally {
         this.loading = false;
       }

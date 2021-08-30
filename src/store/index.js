@@ -33,6 +33,31 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async Login({ dispatch }, usuario) {
+      try {
+        this.loading = true;
+        const result = await axios.post("/auth/login", {
+          usuario: usuario.user,
+          password: usuario.psw,
+        });
+        const token = result.data.token;
+        dispatch("setLocalToken", token);
+        const now = new Date();
+        const expira = now.getTime() + 86400000; //24h
+        localStorage.setItem("expira", expira);
+        dispatch(
+          "noti/agregarNotificacionExitosa",
+          "Inicio de sesión correcto"
+        );
+        router.push("/");
+      } catch (error) {
+        let msg = null;
+        if (error.response.data.msg) {
+          msg = error.response.data.msg;
+        }
+        dispatch("noti/agregarNotificacionErronea", msg);
+      }
+    },
     leerToken({ dispatch }, payload) {
       const now = new Date();
       const token = localStorage.getItem("token");

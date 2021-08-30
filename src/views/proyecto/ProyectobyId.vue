@@ -27,35 +27,24 @@
                 <span class="font-weight-medium"> Nombre: </span>
                 {{ proyecto.nombre }}
               </p>
-            </v-col>
-            <v-col xl="6" md="7" sm="12">
-              <h2 class="text--h2 font-weight-regular">Documentos</h2>
-              <v-divider class="mb-5"></v-divider>
+              <span class="font-weight-medium"> Documento: </span>
               <v-alert
                 class="mt-5"
-                v-if="proyecto.documentos.length === 0"
+                v-if="documento.nombre === ''"
                 colored-border
-                type="warning"
+                type="info"
                 border="left"
                 elevation="2"
               >
-                <span class="text--caption">No existen documentos</span>
+                <span class="text--caption">No existe un documento</span>
               </v-alert>
               <v-list v-else>
                 <v-list-item-group>
-                  <v-list-item
-                    v-for="(d, index) in proyecto.documentos"
-                    :key="index"
-                  >
-                    <v-list-item-content>
-                      <v-list-item-title v-text="d.nombre">{{
-                        d.nombre
-                      }}</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
                   <v-list-item>
                     <v-list-item-content>
-                      <v-list-item-title>hola</v-list-item-title>
+                      <v-list-item-title
+                        >{{ documento.nombre }} , {{ documento.texto }}
+                      </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list-item-group>
@@ -106,12 +95,79 @@
                 >
                   <v-icon left>mdi-plus </v-icon>
                   <v-spacer></v-spacer>
-                  Agregar documentos</v-btn
+                  {{ textodocadd }}</v-btn
                 >
               </v-scroll-x-transition>
             </v-col>
-          </v-row>
 
+            <v-col xl="6" md="7" sm="12">
+              <h2 class="text--h2 font-weight-regular">Preguntas</h2>
+              <v-divider class="mb-5"></v-divider>
+              <v-alert
+                class="mt-5"
+                v-if="documento.nombre === ''"
+                colored-border
+                type="warning"
+                border="left"
+                elevation="2"
+              >
+                <span class="text--caption"
+                  >No se pueden realizar preguntas hasta que agregue un
+                  documento</span
+                >
+              </v-alert>
+              <v-form
+                ref="qaform"
+                v-else
+                v-model="validqa"
+                @submit.prevent="preguntar()"
+              >
+                <v-container class="px-5">
+                  <v-textarea
+                    required
+                    clearable
+                    label="Pregunta"
+                    outlined
+                    auto-grow
+                    v-model="pregunta"
+                    :loading="qaloading"
+                    :rules="qarules"
+                  ></v-textarea>
+                  <v-btn
+                    v-if="rpta === ''"
+                    color="primary"
+                    block
+                    :loading="qaloading"
+                    type="submit"
+                    large
+                  >
+                    Preguntar
+                    <v-icon right dark> mdi-file-question-outline </v-icon>
+                  </v-btn>
+                  <v-btn
+                    v-else
+                    color="primary"
+                    block
+                    :loading="qaloading"
+                    @click.stop="resetqa()"
+                  >
+                    Reiniciar
+                    <v-icon small right dark> mdi-reload </v-icon>
+                  </v-btn>
+                </v-container>
+                <v-fade-transition v-if="rpta != ''">
+                  <v-container class="px-5">
+                    <h4 class="text--h4 font-weight-bold">Respuesta:</h4>
+                    <p class="text--body1">{{ rpta }}</p>
+                    <p class="text--body1">
+                      <span class="font-weight-bold"> Presición: </span>
+                      {{ presicion }}
+                    </p>
+                  </v-container>
+                </v-fade-transition>
+              </v-form>
+            </v-col>
+          </v-row>
           <ActionFButton v-if="isDirector" v-bind:id="id" tipo="project" />
         </div>
       </v-fade-transition>
@@ -135,15 +191,23 @@ export default {
       isDirector: false,
       loading: false,
       docloading: false,
+      textodocadd: "",
       agregar: false,
-      doc: null,
-      docrules: [(v) => !!v || "File is required"],
+      docrules: [(v) => !!v || "Este campo es obligatorio"],
       docformvalidation: true,
       proyecto: {
         codigo: "cod",
         nombre: "name",
-        documentos: [{ id: 1, nombre: "hola" }],
       },
+      documento: { nombre: "j", texto: "textp" },
+      doc: null,
+      //preguntas
+      pregunta: "Pregunta random",
+      validqa: false,
+      qaloading: false,
+      qarules: [(v) => !!v || "Este campo es obligatorio"],
+      rpta: "",
+      presicion: "2%",
     };
   },
   methods: {
@@ -151,13 +215,12 @@ export default {
       getProyectobyId: "proyecto/getProyectobyId",
     }),
     agregardoc() {
-      if (this.$refs.docform.validate()) {
+      if (this.$refs.docform.validate() && this.doc) {
         const docu = {
-          id: 1,
-          nombre: this.doc.nombre,
+          nombre: this.doc.name,
+          texto: "cualquier texto",
         };
-        this.proyecto.documentos.push(docu);
-        console.log(this.proyecto.documentos);
+        this.documento = docu;
         this.reiniciardocform();
       }
     },
@@ -175,13 +238,40 @@ export default {
         this.loading = false;
       }
     },
+    changetextofbuttonadddoc() {
+      if (this.documento.nombre === "") {
+        this.textodocadd = "Agregar un documento";
+      } else {
+        this.textodocadd = "Actualizar documento";
+      }
+    },
+    preguntar() {
+      if (this.$refs.qaform.validate()) {
+        try {
+          this.qaloading = true;
+          this.rpta = "respuesta random";
+        } catch (e) {
+          console.log(e);
+        } finally {
+          this.qaloading = false;
+        }
+      }
+    },
+    resetqa() {
+      this.$refs.qaform.reset();
+      this.rpta = "";
+    },
   },
   computed: {
     ...mapGetters({ rol: "getCurrentUserRol" }),
   },
+  updated() {
+    this.changetextofbuttonadddoc();
+  },
   mounted() {
     this.getproyectofromAPI();
     if (this.rol === "Director") this.isDirector = true;
+    this.changetextofbuttonadddoc();
   },
 };
 </script>
