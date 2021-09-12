@@ -1,5 +1,5 @@
 <template>
-  <v-fab-transition>
+  <v-fade-transition>
     <section>
       <v-btn
         color="primary"
@@ -26,7 +26,7 @@
                 :loading="loading"
                 prepend-inner-icon="mdi-identifier"
                 v-model="proyecto.codigo"
-                counter
+                counter="30"
                 clearable
                 :rules="codRules"
                 label="Código"
@@ -36,7 +36,7 @@
                 :loading="loading"
                 prepend-inner-icon="mdi-alphabetical-variant"
                 v-model="proyecto.nombre"
-                counter
+                counter="50"
                 clearable
                 :rules="nameRules"
                 label="Nombre del proyecto"
@@ -54,7 +54,7 @@
         </v-card>
       </v-dialog>
     </section>
-  </v-fab-transition>
+  </v-fade-transition>
 </template>
 
 <script>
@@ -73,8 +73,24 @@ export default {
         nombre: "",
         codigo: "",
       },
-      nameRules: [(v) => !!v || "Este campo es obligatorio"],
-      codRules: [(v) => !!v || "Este campo es obligatorio"],
+      nameRules: [
+        (v) => !!v || "Este campo es obligatorio",
+        (v) =>
+          (v && v.length <= 50) ||
+          "Este campo debe contener como máximo 50 caracteres",
+        (v) =>
+          (v && v.length >= 5) ||
+          "Este campo debe contener como mínimo 5 caracteres",
+      ],
+      codRules: [
+        (v) => !!v || "Este campo es obligatorio",
+        (v) =>
+          (v && v.length >= 5) ||
+          "Este campo debe contener como mínimo 5 caracteres",
+        (v) =>
+          (v && v.length <= 30) ||
+          "Este campo debe contener como máximo 30 caracteres",
+      ],
     };
   },
   methods: {

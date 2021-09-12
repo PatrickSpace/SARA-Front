@@ -41,6 +41,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   store.dispatch("leerToken", to.name);
+  store.dispatch("leerGlobalUser");
   const token = store.getters.getToken;
   const isprotegida = to.matched.some((ruta) => ruta.meta.protegida);
   if (isprotegida && token === null) {
