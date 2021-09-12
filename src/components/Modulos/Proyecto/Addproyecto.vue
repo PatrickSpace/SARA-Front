@@ -24,22 +24,22 @@
             <v-card-text class="pt-2">
               <v-text-field
                 :loading="loading"
-                prepend-inner-icon="mdi-account"
-                v-model="proyecto.nombre"
-                counter
-                clearable
-                :rules="nameRules"
-                label="Nombre"
-                required
-              ></v-text-field>
-              <v-text-field
-                :loading="loading"
-                prepend-inner-icon="mdi-account"
+                prepend-inner-icon="mdi-identifier"
                 v-model="proyecto.codigo"
                 counter
                 clearable
                 :rules="codRules"
-                label="Codigo"
+                label="Código"
+                required
+              ></v-text-field>
+              <v-text-field
+                :loading="loading"
+                prepend-inner-icon="mdi-alphabetical-variant"
+                v-model="proyecto.nombre"
+                counter
+                clearable
+                :rules="nameRules"
+                label="Nombre del proyecto"
                 required
               ></v-text-field>
             </v-card-text>
@@ -70,8 +70,8 @@ export default {
       validlogin: true,
       loading: false,
       proyecto: {
-        nombre: "sara",
-        codigo: "PRY1",
+        nombre: "",
+        codigo: "",
       },
       nameRules: [(v) => !!v || "Este campo es obligatorio"],
       codRules: [(v) => !!v || "Este campo es obligatorio"],

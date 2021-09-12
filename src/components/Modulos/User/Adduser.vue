@@ -1,5 +1,5 @@
 <template>
-  <v-fab-transition>
+  <v-fade-transition>
     <section>
       <v-btn
         color="primary"
@@ -24,7 +24,7 @@
             <v-card-text class="pt-2">
               <v-text-field
                 :loading="loading"
-                prepend-inner-icon="mdi-account"
+                prepend-inner-icon="mdi-card-account-details"
                 v-model="usuario.nombre"
                 counter="50"
                 clearable
@@ -57,7 +57,7 @@
               ></v-text-field>
               <v-select
                 :loading="loading"
-                prepend-inner-icon="mdi-account"
+                prepend-inner-icon="mdi-account-box-multiple"
                 v-model="select"
                 :items="roles"
                 item-text="texto"
@@ -80,7 +80,7 @@
         </v-card>
       </v-dialog>
     </section>
-  </v-fab-transition>
+  </v-fade-transition>
 </template>
 
 <script>
@@ -103,17 +103,19 @@ export default {
         { texto: "Director", valor: ["profesor", "coordinador", "director"] },
       ],
       usuario: {
-        nombre: "bert",
-        usuario: "ed",
-        password: "pass",
-        roles: ["profesor"],
+        nombre: "",
+        usuario: "",
+        password: "",
+        roles: [],
       },
       rules: {
         nombreRules: [
           (v) => !!v || "Este campo es obligatorio",
+          /*
           (v) =>
             (v && v.length >= 5) ||
-            "Este campo debe contener como mínimo 5 caracteres",
+            "Este campo debe contener como mínimo 5 caracteres", 
+            */
           (v) =>
             (v && v.length <= 50) ||
             "Este campo debe contener como máximo 50 caracteres",
@@ -123,19 +125,23 @@ export default {
         ],
         userRules: [
           (v) => !!v || "Este campo es obligatorio",
+          /*
           (v) =>
             (v && v.length >= 5) ||
             "Este campo debe contener como mínimo 5 caracteres",
+  */
           (v) =>
             (v && v.length <= 30) ||
-            "Este campo debe contener como máximo 50 caracteres",
+            "Este campo debe contener como máximo 30 caracteres",
           //(v) => !/[0-9]+/.test(v) || "Este campo no debe contener numeros",
         ],
         pswRules: [
           (v) => !!v || "Este campo es obligatorio",
+          /*
           (v) =>
             (v && v.length >= 5) ||
             "Este campo debe contener como mínimo 5 caracteres",
+            */
           (v) =>
             (v && v.length <= 20) ||
             "Este campo debe contener como máximo 20 caracteres",
@@ -154,28 +160,14 @@ export default {
     async adduser() {
       if (this.$refs.form.validate()) {
         try {
-          this.loading = true;
           if (this.select != null) this.usuario.roles = this.select.valor;
+          this.loading = true;
           const usuariotoadd = JSON.stringify(this.usuario);
           await this.addUserfromAPI(usuariotoadd);
           this.cancelar();
-          if (this.select.texto) {
-            switch (this.select.texto) {
-              case "Profesor":
-                this.getProfesores();
-                break;
-              case "Director":
-                this.getDirectores();
-                break;
-              case "Coordinador":
-                this.getCoordinadores();
-              default:
-                this.getProfesores();
-                this.getDirectores();
-                this.getCoordinadores();
-                break;
-            }
-          }
+          this.getProfesores();
+          this.getDirectores();
+          this.getCoordinadores();
         } catch (e) {
           console.log(e.response);
         } finally {

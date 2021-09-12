@@ -38,9 +38,6 @@ export default {
           return user;
         });
         commit("setProfesores", usuarios);
-        dispatch("noti/agregarNotificacionExitosa", "Profesores recuperados", {
-          root: true,
-        });
       } catch (error) {
         let msg = null;
         if (error.response.data.msg) {
@@ -55,13 +52,6 @@ export default {
         const result = await axios.get(url);
         const usuarios = result.data.items;
         commit("setCoordinadores", usuarios);
-        dispatch(
-          "noti/agregarNotificacionExitosa",
-          "Coordinadores recuperados",
-          {
-            root: true,
-          }
-        );
       } catch (error) {
         let msg = null;
         if (error.response.data.msg) {
@@ -75,9 +65,6 @@ export default {
       try {
         const result = await axios.get(url);
         commit("setDirectores", result.data.items);
-        dispatch("noti/agregarNotificacionExitosa", "Directores recuperados", {
-          root: true,
-        });
       } catch (error) {
         let msg = null;
         if (error.response.data.msg) {
@@ -88,7 +75,6 @@ export default {
     },
     async getUserbyID({ dispatch }, id) {
       const url = apiobject + "/" + id;
-
       try {
         const result = await axios.get(url);
         const usuario = result.data;
@@ -130,7 +116,7 @@ export default {
     updateUsuario() {},
     async addUsuario({ dispatch }, usuario) {
       try {
-        await axios.post(apiobject, usuario);
+        const result = await axios.post(apiobject, usuario);
         dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
           root: true,
         });
@@ -139,7 +125,6 @@ export default {
         if (error.response.data.msg) {
           errores = error.response.data.msg;
         }
-
         if (errores.length > 0) {
           errores.forEach((e) => {
             dispatch("noti/agregarNotificacionErronea", e, {

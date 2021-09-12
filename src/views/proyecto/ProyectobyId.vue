@@ -123,6 +123,16 @@
                 @submit.prevent="preguntar()"
               >
                 <v-container class="px-5">
+                  <v-combobox
+                    v-model="pregunta"
+                    :items="preguntaspreseleccionadas"
+                    label="Pregunta pre-seleccionada"
+                    hint="Si no encuentra la pregunta que desea realizar puede escribirla en el recuadro inferior"
+                    persistent-hint
+                    clearable
+                    outlined
+                    class="mb-5"
+                  ></v-combobox>
                   <v-textarea
                     required
                     clearable
@@ -155,14 +165,42 @@
                     <v-icon small right dark> mdi-reload </v-icon>
                   </v-btn>
                 </v-container>
-                <v-fade-transition v-if="rpta != ''">
-                  <v-container class="px-5">
+                <v-fade-transition>
+                  <v-container v-if="rpta != ''" class="px-5">
                     <h4 class="text--h4 font-weight-bold">Respuesta:</h4>
-                    <p class="text--body1">{{ rpta }}</p>
+                    <p class="text--body1 text-uppercase">{{ rpta }}</p>
                     <p class="text--body1">
                       <span class="font-weight-bold"> Presición: </span>
                       {{ presicion }}
                     </p>
+                    <h4 class="text--h4 font-weight-bold">
+                      Califique su respuesta
+                      <v-tooltip right max-width="28%">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon color="blue" v-bind="attrs" v-on="on"
+                            >mdi-help-circle</v-icon
+                          >
+                        </template>
+                        <span
+                          >Esta calificación indica que tan satisfecho está con
+                          la respuesta brindada por el sistema</span
+                        >
+                      </v-tooltip>
+                    </h4>
+                    <v-rating
+                      v-model="calificacion"
+                      background-color="gray"
+                      dense
+                      color="orange"
+                      large
+                    ></v-rating>
+                    <v-btn
+                      @click.stop="calificar()"
+                      class="mt-5"
+                      color="primary"
+                      text
+                      >Calificar</v-btn
+                    >
                   </v-container>
                 </v-fade-transition>
               </v-form>
@@ -199,15 +237,17 @@ export default {
         codigo: "cod",
         nombre: "name",
       },
-      documento: { nombre: "j", texto: "textp" },
+      documento: { nombre: "j", texto: "texto" },
       doc: null,
       //preguntas
-      pregunta: "Pregunta random",
       validqa: false,
       qaloading: false,
       qarules: [(v) => !!v || "Este campo es obligatorio"],
+      pregunta: "Pregunta random",
+      preguntaspreseleccionadas: ["¿Como me llamo?", "Barri"],
       rpta: "",
       presicion: "2%",
+      calificacion: 0,
     };
   },
   methods: {
@@ -260,6 +300,15 @@ export default {
     resetqa() {
       this.$refs.qaform.reset();
       this.rpta = "";
+    },
+    calificar() {
+      const calificaciontosave = {
+        contexto: this.documento.texto,
+        pregunta: this.pregunta,
+        respuesta: this.rpta,
+        calificacion: this.calificacion,
+      };
+      console.log(calificaciontosave);
     },
   },
   computed: {

@@ -47,7 +47,7 @@ export default new Vuex.Store({
         localStorage.setItem("expira", expira);
         dispatch(
           "noti/agregarNotificacionExitosa",
-          "Inicio de sesión correcto"
+          "Inició sesión correctamente"
         );
         router.push("/");
       } catch (error) {
