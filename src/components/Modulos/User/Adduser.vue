@@ -176,6 +176,7 @@ export default {
       }
     },
     cancelar() {
+      console.log(this.select);
       this.dialog = false;
       this.$refs.form.reset();
     },

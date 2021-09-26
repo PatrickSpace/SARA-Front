@@ -30,23 +30,9 @@
         </template>
         <span>Eliminar</span>
       </v-tooltip>
-      <v-tooltip left>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            @click.stop="editarelemento()"
-            v-bind="attrs"
-            v-on="on"
-            fab
-            dark
-            small
-            color="blue"
-          >
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-        </template>
-        <span>Editar</span>
-      </v-tooltip>
-      <v-dialog v-model="dialog" max-width="290">
+
+      <EditUser v-bind:usuariofromcomponent="usuario" />
+      <v-dialog v-model="deldialog" max-width="290">
         <v-card>
           <v-card-title> ¿Estas seguro que desea eliminar? </v-card-title>
           <v-card-actions>
@@ -65,9 +51,13 @@
 </template>
 
 <script>
+import EditUser from "@/components/Modulos/User/EditUser.vue";
 import { mapActions } from "vuex";
 export default {
   name: "ActionFButton",
+  components: {
+    EditUser,
+  },
   props: {
     id: String,
     tipo: String,
@@ -77,7 +67,8 @@ export default {
     return {
       actionbtn: false,
       loading: false,
-      dialog: false,
+      deldialog: false,
+      editdialog: false,
     };
   },
   methods: {
