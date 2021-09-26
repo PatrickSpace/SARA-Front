@@ -32,7 +32,7 @@
                 {{ usuario.rol }}
               </p>
             </v-col>
-            <v-col v-if="usuario.rol === 'profesor'" xl="6" md="7" sm="12">
+            <v-col v-if="usuario.rol === 'Profesor'" xl="6" md="7" sm="12">
               <h2 class="text--h2 font-weight-regular">Proyectos asignados</h2>
               <v-divider class="mb-5"></v-divider>
               <v-card
@@ -58,7 +58,7 @@
               </v-card>
             </v-col>
           </v-row>
-          <ActionFButton v-bind:id="id" tipo="user" />
+          <ActionFButton v-bind:id="id" tipo="user" v-bind:usuario="usuario" />
         </div>
       </v-fade-transition>
     </section>
@@ -81,19 +81,21 @@ export default {
       usuario: {
         nombre: "Julio Quispi",
         username: "user",
-        rol: "profesor",
+        rol: "Profesor",
         proyectos: [{ nombre: "nombre 1", codigo: "codigo 1" }],
       },
-
       id: this.$route.params.id,
     };
   },
   methods: {
     ...mapActions({ getUsuariobyID: "usuario/getUserbyID" }),
-    getUser(id) {
+    async getUser(id) {
       try {
         this.loading = true;
-        this.getUsuariobyID(id);
+        const userfound = await this.getUsuariobyID(id);
+        this.usuario.nombre = userfound.nombre;
+        this.usuario.username = userfound.usuario;
+        this.usuario.rol = userfound.rol;
       } catch (e) {
         console.log(e);
       } finally {

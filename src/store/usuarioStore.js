@@ -1,5 +1,21 @@
 const apiobject = "/user";
 
+const buscarRol = (roles) => {
+  let rol = null;
+  if (roles) {
+    roles = roles.map(function(rol) {
+      return rol.nombre;
+    });
+    const dfound = roles.find((r) => r === "director");
+    const cfound = roles.find((r) => r === "coordinador");
+    const pfound = roles.find((r) => r === "profesor");
+    if (dfound) rol = "Director";
+    else if (cfound) rol = "Coordinador";
+    else if (pfound) rol = "Profesor";
+  }
+  return rol;
+};
+
 export default {
   namespaced: true,
   state: {
@@ -75,13 +91,12 @@ export default {
     },
     async getUserbyID({ dispatch }, id) {
       const url = apiobject + "/" + id;
+      let usuario = undefined;
       try {
         const result = await axios.get(url);
-        const usuario = result.data;
-        dispatch("noti/agregarNotificacionExitosa", "Usuario recuperado", {
-          root: true,
-        });
-        console.log(usuario);
+        usuario = await result.data.items;
+        usuario.rol = buscarRol(usuario.roles);
+        return usuario;
       } catch (error) {
         let msg = null;
         if (error.response.data.msg) {

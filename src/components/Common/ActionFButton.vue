@@ -1,5 +1,5 @@
 <template>
-  <v-fab-transition>
+  <v-fade-transition>
     <v-speed-dial
       fixed
       v-model="actionbtn"
@@ -17,7 +17,7 @@
       <v-tooltip left>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
-            @click.stop="borrarelemento()"
+            @click.stop="dialog = true"
             v-bind="attrs"
             v-on="on"
             fab
@@ -46,8 +46,22 @@
         </template>
         <span>Editar</span>
       </v-tooltip>
+      <v-dialog v-model="dialog" max-width="290">
+        <v-card>
+          <v-card-title> ¿Estas seguro que desea eliminar? </v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" text @click="dialog = false">
+              Disagree
+            </v-btn>
+            <v-btn color="green darken-1" text @click.stop="borrarelemento()">
+              Agree
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-speed-dial>
-  </v-fab-transition>
+  </v-fade-transition>
 </template>
 
 <script>
@@ -57,11 +71,13 @@ export default {
   props: {
     id: String,
     tipo: String,
+    usuario: Object,
   },
   data() {
     return {
       actionbtn: false,
       loading: false,
+      dialog: false,
     };
   },
   methods: {

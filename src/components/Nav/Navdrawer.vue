@@ -22,8 +22,9 @@
       <v-divider></v-divider>
     </template>
 
-    <DirectorNav />
-    <CoordinadorNav />
+    <DirectorNav v-if="getUser.rol == 'Director'" />
+    <CoordinadorNav v-if="getUser.rol == 'Coordinador'" />
+    <ProfesorNav v-if="getUser.rol == 'Profesor'" />
 
     <template v-slot:append>
       <v-list-item-group>

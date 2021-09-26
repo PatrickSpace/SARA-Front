@@ -55,12 +55,7 @@ export default {
         );
         dispatch("getProyectos");
       } catch (error) {
-        let msg = null;
-        if (error.response.data.msg) {
-          msg = error.response.data.msg;
-        }
-        console.log(error);
-        dispatch("noti/agregarNotificacionErronea", msg, { root: true });
+        dispatch("readbadnotifications", error, { root: true });
       }
     },
     async DeleteProject({ dispatch }, id) {

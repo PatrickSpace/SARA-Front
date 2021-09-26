@@ -70,6 +70,7 @@ export default new Vuex.Store({
         localStorage.setItem("expira", expira);
 
         //setear usuario global
+        // const rol = dispatch("buscarRol", result.data.rol);
         const rol = buscarRol(result.data.rol);
         const nombre = result.data.nombre;
         const globaluser = { nombre: nombre, rol: rol };
@@ -90,6 +91,21 @@ export default new Vuex.Store({
         }
         dispatch("noti/agregarNotificacionErronea", msg);
       }
+    },
+    buscarRol(roles) {
+      let rol = null;
+      if (roles) {
+        roles = roles.map(function(rol) {
+          return rol.nombre;
+        });
+        const dfound = roles.find((r) => r === "director");
+        const cfound = roles.find((r) => r === "coordinador");
+        const pfound = roles.find((r) => r === "profesor");
+        if (dfound) rol = "Director";
+        else if (cfound) rol = "Coordinador";
+        else if (pfound) rol = "Profesor";
+      }
+      return rol;
     },
     leerToken({ dispatch }, payload) {
       const now = new Date();
@@ -138,6 +154,19 @@ export default new Vuex.Store({
       localStorage.setItem("rol", user.rol);
       commit("setCurrentUsername", user.nombre);
       commit("setCurrentRol", user.rol);
+    },
+    readbadnotifications({ dispatch }, error) {
+      let errores = [];
+      if (error.response.data.msg) {
+        errores = error.response.data.msg;
+      }
+      if (errores.length > 0) {
+        errores.forEach((e) => {
+          dispatch("noti/agregarNotificacionErronea", e);
+        });
+      } else {
+        dispatch("noti/agregarNotificacionErronea", null);
+      }
     },
   },
   modules: {
