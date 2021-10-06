@@ -62,8 +62,8 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="red" dark @click="cancelar()"> Cancelar </v-btn>
-            <v-btn color="primary" :loading="loading" type="submit">
+            <v-btn color="red" text dark @click="cancelar()"> Cancelar </v-btn>
+            <v-btn color="primary" text :loading="loading" type="submit">
               Agregar
             </v-btn>
           </v-card-actions>
@@ -116,7 +116,6 @@ export default {
   },
   methods: {
     cancelar() {
-      console.log("cancelado");
       this.editdialog = false;
       this.$refs.form.reset();
     },

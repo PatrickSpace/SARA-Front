@@ -24,22 +24,22 @@
             <v-card-text class="pt-2">
               <v-text-field
                 :loading="loading"
-                prepend-inner-icon="mdi-identifier"
-                v-model="proyecto.codigo"
-                counter="30"
-                clearable
-                :rules="codRules"
-                label="Código"
-                required
-              ></v-text-field>
-              <v-text-field
-                :loading="loading"
                 prepend-inner-icon="mdi-alphabetical-variant"
                 v-model="proyecto.nombre"
                 counter="50"
                 clearable
                 :rules="nameRules"
                 label="Nombre del proyecto"
+                required
+              ></v-text-field>
+              <v-text-field
+                :loading="loading"
+                prepend-inner-icon="mdi-identifier"
+                v-model="proyecto.codigo"
+                counter="30"
+                clearable
+                :rules="codRules"
+                label="Código"
                 required
               ></v-text-field>
             </v-card-text>

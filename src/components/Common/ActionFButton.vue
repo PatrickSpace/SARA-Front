@@ -17,7 +17,7 @@
       <v-tooltip left>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
-            @click.stop="dialog = true"
+            @click.stop="deldialog = true"
             v-bind="attrs"
             v-on="on"
             fab
@@ -31,17 +31,23 @@
         <span>Eliminar</span>
       </v-tooltip>
 
-      <EditUser v-bind:usuariofromcomponent="usuario" />
-      <v-dialog v-model="deldialog" max-width="290">
-        <v-card>
+      <EditUser v-if="tipo === 'user'" v-bind:usuariofromcomponent="usuario" />
+      <Editproyecto
+        v-if="tipo === 'proyecto'"
+        v-bind:proyectofromcomponent="proyecto"
+      />
+      <AddproyectoToprofe v-if="tipo === 'user'" v-bind:id="id" />
+
+      <v-dialog v-model="deldialog" max-width="490" persistent>
+        <v-card :loading="loading" :disabled="loading">
           <v-card-title> ¿Estas seguro que desea eliminar? </v-card-title>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="dialog = false">
-              Disagree
+            <v-btn color="gray darken-1" text @click="deldialog = false">
+              Cancelar
             </v-btn>
-            <v-btn color="green darken-1" text @click.stop="borrarelemento()">
-              Agree
+            <v-btn color="red darken-1" text @click.stop="borrarelemento()">
+              Borrar
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -52,16 +58,21 @@
 
 <script>
 import EditUser from "@/components/Modulos/User/EditUser.vue";
+import Editproyecto from "@/components/Modulos/Proyecto/Editproyecto.vue";
+import AddproyectoToprofe from "@/components/Modulos/User/AddproyectoToprofe.vue";
 import { mapActions } from "vuex";
 export default {
   name: "ActionFButton",
   components: {
     EditUser,
+    Editproyecto,
+    AddproyectoToprofe,
   },
   props: {
     id: String,
     tipo: String,
     usuario: Object,
+    proyecto: Object,
   },
   data() {
     return {
@@ -82,7 +93,7 @@ export default {
         if (this.tipo === "user") {
           this.borrarUsuario(this.id);
           this.$router.go(-1);
-        } else if (this.tipo === "project") {
+        } else if (this.tipo === "proyecto") {
           this.borrarProyecto(this.id);
           this.$router.push({ name: "Allproyectos" });
         }

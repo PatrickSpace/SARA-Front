@@ -32,14 +32,9 @@ export default {
       try {
         const result = await axios.get(url);
         const proyecto = result.data.proyectofound;
-
         return proyecto;
       } catch (error) {
-        let msg = null;
-        if (error.response.data.msg) {
-          msg = error.response.data.msg;
-        }
-        dispatch("noti/agregarNotificacionErronea", msg, { root: true });
+        dispatch("readbadnotifications", error, { root: true });
         router.go(-1);
       }
     },
@@ -62,9 +57,11 @@ export default {
       const url = apiobject + "/" + id;
       try {
         const result = await axios.delete(url);
+        console.log(result);
         dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
           root: true,
         });
+        dispatch("getProyectos");
       } catch (error) {
         let errores = [];
         if (error.response.data.msg) {
@@ -81,5 +78,6 @@ export default {
         }
       }
     },
+    uploadDoc() {},
   },
 };

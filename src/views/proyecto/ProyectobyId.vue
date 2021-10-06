@@ -30,7 +30,7 @@
               <span class="font-weight-medium"> Documento: </span>
               <v-alert
                 class="mt-5"
-                v-if="documento.nombre === ''"
+                v-if="docname === ''"
                 colored-border
                 type="info"
                 border="left"
@@ -38,16 +38,12 @@
               >
                 <span class="text--caption">No existe un documento</span>
               </v-alert>
-              <v-list v-else>
-                <v-list-item-group>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title
-                        >{{ documento.nombre }} , {{ documento.texto }}
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list-item-group>
+              <v-list v-else elevation="2" class="mt-2">
+                <v-list-item dense>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ docname }} </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
               </v-list>
               <v-scroll-x-transition v-if="agregar">
                 <v-form
@@ -89,7 +85,7 @@
                 <v-btn
                   large
                   text
-                  class="mb-2"
+                  class="mb-2 mt-2"
                   color="primary"
                   @click.stop="agregar = true"
                 >
@@ -99,13 +95,12 @@
                 >
               </v-scroll-x-transition>
             </v-col>
-
             <v-col xl="6" md="7" sm="12">
               <h2 class="text--h2 font-weight-regular">Preguntas</h2>
               <v-divider class="mb-5"></v-divider>
               <v-alert
                 class="mt-5"
-                v-if="documento.nombre === ''"
+                v-if="docname === ''"
                 colored-border
                 type="warning"
                 border="left"
@@ -206,7 +201,12 @@
               </v-form>
             </v-col>
           </v-row>
-          <ActionFButton v-if="isDirector" v-bind:id="id" tipo="project" />
+          <ActionFButton
+            v-if="isDirector"
+            v-bind:id="id"
+            tipo="proyecto"
+            v-bind:proyecto="proyecto"
+          />
         </div>
       </v-fade-transition>
     </section>
@@ -229,6 +229,7 @@ export default {
       isDirector: false,
       loading: false,
       docloading: false,
+      docloading: false,
       textodocadd: "",
       agregar: false,
       docrules: [(v) => !!v || "Este campo es obligatorio"],
@@ -237,7 +238,7 @@ export default {
         codigo: "cod",
         nombre: "name",
       },
-      documento: { nombre: "j", texto: "texto" },
+      docname: "",
       doc: null,
       //preguntas
       validqa: false,
@@ -253,15 +254,25 @@ export default {
   methods: {
     ...mapActions({
       getProyectobyId: "proyecto/getProyectobyId",
+      uploadDoc: "proyecto/uploadDoc",
     }),
-    agregardoc() {
+    async agregardoc() {
       if (this.$refs.docform.validate() && this.doc) {
-        const docu = {
-          nombre: this.doc.name,
-          texto: "cualquier texto",
-        };
-        this.documento = docu;
-        this.reiniciardocform();
+        try {
+          this.docloading = true;
+          const payload = {
+            documento: this.doc,
+            id: this.id,
+          };
+          const result = await this.uploadDoc(payload);
+          console.log(result);
+          this.docname = this.doc.name;
+          this.reiniciardocform();
+        } catch (e) {
+          console.log(e);
+        } finally {
+          this.docloading = false;
+        }
       }
     },
     reiniciardocform() {
@@ -279,7 +290,7 @@ export default {
       }
     },
     changetextofbuttonadddoc() {
-      if (this.documento.nombre === "") {
+      if (this.docname === "") {
         this.textodocadd = "Agregar un documento";
       } else {
         this.textodocadd = "Actualizar documento";
@@ -303,10 +314,10 @@ export default {
     },
     calificar() {
       const calificaciontosave = {
-        contexto: this.documento.texto,
         pregunta: this.pregunta,
         respuesta: this.rpta,
         calificacion: this.calificacion,
+        presicion: this.presicion,
       };
       console.log(calificaciontosave);
     },
