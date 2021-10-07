@@ -166,7 +166,7 @@
                     <p class="text--body1 text-uppercase">{{ rpta }}</p>
                     <p class="text--body1">
                       <span class="font-weight-bold"> Presición: </span>
-                      {{ presicion }}
+                      {{ presicion }}%
                     </p>
                     <h4 class="text--h4 font-weight-bold">
                       Califique su respuesta
@@ -239,6 +239,7 @@ export default {
         nombre: "name",
       },
       docname: "",
+      currentdocid:null,
       doc: null,
       //preguntas
       validqa: false,
@@ -255,6 +256,8 @@ export default {
     ...mapActions({
       getProyectobyId: "proyecto/getProyectobyId",
       uploadDoc: "proyecto/uploadDoc",
+      realizarPregunta: "proyecto/realizarPregunta",
+      saveCalificacion: "proyecto/saveCalificacion",
     }),
     async agregardoc() {
       if (this.$refs.docform.validate() && this.doc) {
@@ -266,6 +269,7 @@ export default {
           };
           const result = await this.uploadDoc(payload);
           console.log(result);
+          this.currentdocid=result
           this.docname = this.doc.name;
           this.reiniciardocform();
         } catch (e) {
@@ -296,11 +300,17 @@ export default {
         this.textodocadd = "Actualizar documento";
       }
     },
-    preguntar() {
+    preguntar: async function(){
       if (this.$refs.qaform.validate()) {
         try {
           this.qaloading = true;
-          this.rpta = "respuesta random";
+          const payload = {
+            Pregunta: this.pregunta,
+            did: this.currentdocid,
+          };
+          const res = await this.realizarPregunta(payload);
+          this.rpta=res.Respuesta;
+          this.presicion=res.Score;
         } catch (e) {
           console.log(e);
         } finally {
@@ -312,14 +322,18 @@ export default {
       this.$refs.qaform.reset();
       this.rpta = "";
     },
-    calificar() {
+    calificar: async function(){
+      try {
       const calificaciontosave = {
         pregunta: this.pregunta,
         respuesta: this.rpta,
         calificacion: this.calificacion,
         presicion: this.presicion,
       };
-      console.log(calificaciontosave);
+      await this.saveCalificacion(calificaciontosave);
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
   computed: {

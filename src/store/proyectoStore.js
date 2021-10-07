@@ -78,6 +78,80 @@ export default {
         }
       }
     },
-    uploadDoc() {},
+    async uploadDoc({dispatch},payload) {
+      const url = apiobject + "/upload/"+payload.id;
+      try {
+        var body = new FormData();
+        body.append('document',payload.documento);
+        const result = await axios({
+          method: "post",
+          url: url,
+          data: body,
+          headers: { "Content-Type": "multipart/form-data" }
+        });
+        dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
+          root: true,
+        });
+        return result.data.documento_id
+      } catch (error) {
+        let errores = [];
+        if (error.response.data.msg) {
+          errores = error.response.data.msg;
+        }
+        if (errores.length > 0) {
+          errores.forEach((e) => {
+            dispatch("noti/agregarNotificacionErronea", e, {
+              root: true,
+            });
+          });
+        } else {
+          dispatch("noti/agregarNotificacionErronea", null, { root: true });
+        }
+      }
+    },
+    async realizarPregunta({ dispatch},payload){
+      const url = "/analisis/preguntar/"+payload.did;
+      try {
+        const result = await axios.post(url,{pregunta: payload.Pregunta});
+        return result.data
+      } catch (error) {
+        let errores = [];
+        if (error.response.data.msg) {
+          errores = error.response.data.msg;
+        }
+        if (errores.length > 0) {
+          errores.forEach((e) => {
+            dispatch("noti/agregarNotificacionErronea", e, {
+              root: true,
+            });
+          });
+        } else {
+          dispatch("noti/agregarNotificacionErronea", null, { root: true });
+        }
+      }
+    },
+    async saveCalificacion({ dispatch },payload){
+      const url = "/calificacion/";
+      try {
+        const result = await axios.post(url,payload);
+        dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
+          root: true,
+        });
+      } catch (error) {
+        let errores = [];
+        if (error.response.data.msg) {
+          errores = error.response.data.msg;
+        }
+        if (errores.length > 0) {
+          errores.forEach((e) => {
+            dispatch("noti/agregarNotificacionErronea", e, {
+              root: true,
+            });
+          });
+        } else {
+          dispatch("noti/agregarNotificacionErronea", null, { root: true });
+        }
+      }
+    }
   },
 };
