@@ -61,8 +61,8 @@ export default {
       show: false,
       msg: "",
       usuario: {
-        user: "director",
-        psw: "root",
+        user: "",
+        psw: "",
       },
       userRules: [(v) => !!v || "Este campo es obligatorio"],
       pswRules: [(v) => !!v || "Este campo es obligatorio"],
