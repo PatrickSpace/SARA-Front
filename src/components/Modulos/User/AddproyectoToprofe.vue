@@ -26,6 +26,7 @@
           no-results-text="No hay coincidencias"
           :headers="headers"
           :items="getProyectos"
+          item-key="codigo"
           show-select
         >
           <template v-slot:top>

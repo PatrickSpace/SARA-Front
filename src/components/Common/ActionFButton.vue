@@ -14,6 +14,7 @@
           <v-icon v-else> mdi-apps </v-icon>
         </v-btn>
       </template>
+
       <v-tooltip left>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
