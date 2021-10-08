@@ -232,7 +232,11 @@ export default {
       docloading: false,
       textodocadd: "",
       agregar: false,
-      docrules: [(v) => !!v || "Este campo es obligatorio"],
+      docrules: [
+        (v) => !!v || "Este campo es obligatorio",
+        (v) =>
+          (v && v.size < 16000000) || "El archivo no puede pesar más de 16 MB",
+      ],
       docformvalidation: true,
       proyecto: {
         codigo: "cod",

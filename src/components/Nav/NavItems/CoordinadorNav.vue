@@ -21,7 +21,7 @@ export default {
       items: [
         { title: "Home", icon: "mdi-view-dashboard", link: "/" },
         {
-          title: "Todos los proyectos y algo mas para",
+          title: "Proyectos",
           icon: "mdi-file-document-multiple",
           link: "/proyectos",
         },

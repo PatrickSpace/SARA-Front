@@ -9,7 +9,7 @@
   >
     <template v-slot:prepend>
       <v-list-item-group>
-        <v-list-item color="white" two-line link to="/perfil">
+        <v-list-item color="white" two-line>
           <v-list-item-icon>
             <v-icon> mdi-account-circle </v-icon>
           </v-list-item-icon>
