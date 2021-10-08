@@ -96,6 +96,7 @@ export default {
         this.usuario.nombre = userfound.nombre;
         this.usuario.username = userfound.usuario;
         this.usuario.rol = userfound.rol;
+        if (userfound) console.log(userfound.proyectos);
       } catch (e) {
         console.log(e);
       } finally {
