@@ -239,7 +239,7 @@ export default {
         nombre: "name",
       },
       docname: "",
-      currentdocid:null,
+      currentdocid: null,
       doc: null,
       //preguntas
       validqa: false,
@@ -267,11 +267,9 @@ export default {
             documento: this.doc,
             id: this.id,
           };
-          const result = await this.uploadDoc(payload);
-          console.log(result);
-          this.currentdocid=result
-          this.docname = this.doc.name;
+          await this.uploadDoc(payload);
           this.reiniciardocform();
+          this.getproyectofromAPI();
         } catch (e) {
           console.log(e);
         } finally {
@@ -287,6 +285,10 @@ export default {
       try {
         this.loading = true;
         this.proyecto = await this.getProyectobyId(this.id);
+        if (this.proyecto.docname) {
+          this.docname = this.proyecto.docname;
+        }
+        console.log(this.proyecto.doctext.length);
       } catch (e) {
         console.log(e);
       } finally {
@@ -300,17 +302,20 @@ export default {
         this.textodocadd = "Actualizar documento";
       }
     },
-    preguntar: async function(){
+    preguntar: async function () {
       if (this.$refs.qaform.validate()) {
         try {
           this.qaloading = true;
           const payload = {
             Pregunta: this.pregunta,
-            did: this.currentdocid,
+            id: this.id,
           };
           const res = await this.realizarPregunta(payload);
-          this.rpta=res.Respuesta;
-          this.presicion=res.Score;
+          console.log(res);
+          if (res !== "No existe el proyecto") {
+            this.rpta = res.Respuesta;
+            this.presicion = res.Score;
+          }
         } catch (e) {
           console.log(e);
         } finally {
@@ -322,17 +327,17 @@ export default {
       this.$refs.qaform.reset();
       this.rpta = "";
     },
-    calificar: async function(){
+    calificar: async function () {
       try {
-      const calificaciontosave = {
-        pregunta: this.pregunta,
-        respuesta: this.rpta,
-        calificacion: this.calificacion,
-        presicion: this.presicion,
-      };
-      await this.saveCalificacion(calificaciontosave);
+        const calificaciontosave = {
+          pregunta: this.pregunta,
+          respuesta: this.rpta,
+          calificacion: this.calificacion,
+          presicion: this.presicion,
+        };
+        await this.saveCalificacion(calificaciontosave);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
   },

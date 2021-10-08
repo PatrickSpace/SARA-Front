@@ -5,7 +5,7 @@
         v-bind:titulo="tableTitulo"
         v-bind:labelbusqueda="labelbusqueda"
         v-bind:cabecera="headers"
-        v-bind:valores="getProyectos"
+        v-bind:valores="proyectosbyprofes"
         v-bind:loading="loading"
         v-bind:tipodedato="tipo"
       />
@@ -28,9 +28,10 @@ export default {
   },
   data() {
     return {
-      titulo: "Proyectos",
-      tableTitulo: "Todos los proyectos",
+      titulo: "Mis Proyectos",
+      tableTitulo: "Proyectos asignados",
       labelbusqueda: "Buscar por nombre o codigo",
+      proyectosbyprofes: [],
       loading: false,
       tipo: "proyecto",
       headers: [
@@ -42,12 +43,14 @@ export default {
   },
   methods: {
     ...mapActions({
-      obtenerproyectosfromAPI: "proyecto/getProyectos",
+      obtenerproyectosfromAPI: "proyecto/getmyProyectos",
     }),
     obtenerproyectos: async function () {
       try {
         this.loading = true;
-        await this.obtenerproyectosfromAPI();
+        const id = this.getcurrentUser.id;
+        this.proyectosbyprofes = await this.obtenerproyectosfromAPI(id);
+        console.log(this.proyectosbyprofes);
       } catch (e) {
         console.log(e);
       } finally {
@@ -57,7 +60,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getProyectos: "proyecto/getAllProyectos",
+      getProyectos: "proyecto/getmyProyectos",
+      getcurrentUser: "getCurrentUser",
     }),
   },
   created() {

@@ -24,6 +24,7 @@ const routes = [
   //******PROYECTOS************/
   Proyectoroutes.home,
   Proyectoroutes.proyectodetalle,
+  Proyectoroutes.proyectosporprofe,
 
   //*******USUARIOS************/
   Userroutes.all,

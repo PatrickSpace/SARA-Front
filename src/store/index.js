@@ -31,6 +31,7 @@ export default new Vuex.Store({
     currentusuario: {
       nombre: "",
       rol: "",
+      id: 0,
     },
   },
   getters: {
@@ -54,6 +55,9 @@ export default new Vuex.Store({
     setCurrentRol(state, payload) {
       state.currentusuario.rol = payload;
     },
+    setCurrentId(state, payload) {
+      state.currentusuario.id = payload;
+    },
   },
   actions: {
     async Login({ dispatch, commit }, usuario) {
@@ -73,11 +77,13 @@ export default new Vuex.Store({
         // const rol = dispatch("buscarRol", result.data.rol);
         const rol = buscarRol(result.data.rol);
         const nombre = result.data.nombre;
-        const globaluser = { nombre: nombre, rol: rol };
+        const id = result.data.id;
+        const globaluser = { nombre: nombre, rol: rol, id: id };
         dispatch("setGlobalUser", globaluser);
 
         commit("setCurrentUsername", nombre);
         commit("setCurrentRol", rol);
+        commit("setCurrentId", id);
 
         dispatch(
           "noti/agregarNotificacionExitosa",
@@ -146,14 +152,18 @@ export default new Vuex.Store({
     leerGlobalUser({ commit }) {
       const nombre = localStorage.getItem("usuario");
       const rol = localStorage.getItem("rol");
+      const id = localStorage.getItem("id");
       commit("setCurrentUsername", nombre);
       commit("setCurrentRol", rol);
+      commit("setCurrentId", id);
     },
     setGlobalUser({ commit }, user) {
       localStorage.setItem("usuario", user.nombre);
       localStorage.setItem("rol", user.rol);
+      localStorage.setItem("id", user.id);
       commit("setCurrentUsername", user.nombre);
       commit("setCurrentRol", user.rol);
+      commit("setCurrentId", user.id);
     },
     readbadnotifications({ dispatch }, error) {
       let errores = [];

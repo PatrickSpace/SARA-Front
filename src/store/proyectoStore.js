@@ -27,6 +27,17 @@ export default {
         dispatch("noti/agregarNotificacionErronea", msg, { root: true });
       }
     },
+    async getmyProyectos({ dispatch }, id) {
+      const url = apiobject + "/my/" + id;
+      try {
+        const result = await axios.get(url);
+        const proyectos = result.data.proyectos;
+        console.log(result);
+        return proyectos;
+      } catch (error) {
+        dispatch("readbadnotifications", error, { root: true });
+      }
+    },
     async getProyectobyId({ dispatch }, id) {
       const url = apiobject + "/" + id;
       try {
@@ -48,6 +59,7 @@ export default {
             root: true,
           }
         );
+
         dispatch("getProyectos");
       } catch (error) {
         dispatch("readbadnotifications", error, { root: true });
@@ -78,21 +90,20 @@ export default {
         }
       }
     },
-    async uploadDoc({dispatch},payload) {
-      const url = apiobject + "/upload/"+payload.id;
+    async uploadDoc({ dispatch }, payload) {
+      const url = apiobject + "/upload/" + payload.id;
       try {
         var body = new FormData();
-        body.append('document',payload.documento);
+        body.append("document", payload.documento);
         const result = await axios({
           method: "post",
           url: url,
           data: body,
-          headers: { "Content-Type": "multipart/form-data" }
+          headers: { "Content-Type": "multipart/form-data" },
         });
         dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
           root: true,
         });
-        return result.data.documento_id
       } catch (error) {
         let errores = [];
         if (error.response.data.msg) {
@@ -109,11 +120,11 @@ export default {
         }
       }
     },
-    async realizarPregunta({ dispatch},payload){
-      const url = "/analisis/preguntar/"+payload.did;
+    async realizarPregunta({ dispatch }, payload) {
+      const url = "/analisis/preguntar/" + payload.id;
       try {
-        const result = await axios.post(url,{pregunta: payload.Pregunta});
-        return result.data
+        const result = await axios.post(url, { pregunta: payload.Pregunta });
+        return result.data;
       } catch (error) {
         let errores = [];
         if (error.response.data.msg) {
@@ -130,10 +141,10 @@ export default {
         }
       }
     },
-    async saveCalificacion({ dispatch },payload){
+    async saveCalificacion({ dispatch }, payload) {
       const url = "/calificacion/";
       try {
-        const result = await axios.post(url,payload);
+        const result = await axios.post(url, payload);
         dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
           root: true,
         });
@@ -152,6 +163,6 @@ export default {
           dispatch("noti/agregarNotificacionErronea", null, { root: true });
         }
       }
-    }
+    },
   },
 };
