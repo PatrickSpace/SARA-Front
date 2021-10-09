@@ -37,7 +37,10 @@
         v-if="tipo === 'proyecto'"
         v-bind:proyectofromcomponent="proyecto"
       />
-      <AddproyectoToprofe v-if="tipo === 'user'" v-bind:id="id" />
+      <AddproyectoToprofe
+        v-if="tipo === 'user' && usuario.rol === 'Profesor'"
+        v-bind:id="id"
+      />
 
       <v-dialog v-model="deldialog" max-width="490" persistent>
         <v-card :loading="loading" :disabled="loading">
@@ -74,6 +77,7 @@ export default {
     tipo: String,
     usuario: Object,
     proyecto: Object,
+    rol: String,
   },
   data() {
     return {

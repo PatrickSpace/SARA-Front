@@ -51,16 +51,24 @@ export default {
     },
     async Addproyecto({ dispatch }, proyecto) {
       try {
-        await axios.post(apiobject, proyecto);
-        dispatch(
-          "noti/agregarNotificacionExitosa",
-          "Proyecto agregado exitosamente",
-          {
-            root: true,
-          }
-        );
-
+        const result = await axios.post(apiobject, proyecto);
+        dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
+          root: true,
+        });
         dispatch("getProyectos");
+      } catch (error) {
+        dispatch("readbadnotifications", error, { root: true });
+      }
+    },
+
+    async updateproyecto({ dispatch }, payload) {
+      const url = apiobject + "/" + payload.id;
+      try {
+        const proyectos = { codigo: payload.codigo, nombre: payload.nombre };
+        const result = await axios.put(url, proyectos);
+        dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
+          root: true,
+        });
       } catch (error) {
         dispatch("readbadnotifications", error, { root: true });
       }

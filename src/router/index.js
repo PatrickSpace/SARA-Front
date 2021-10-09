@@ -4,6 +4,7 @@ import store from "@/store/index";
 
 import Login from "@/views/auth/Login.vue";
 import Home from "@/views/Home.vue";
+import PageNotFound from "@/views/404.vue";
 
 import Userroutes from "@/router/users.routes.js";
 import Proyectoroutes from "@/router/proyectos.routes.js";
@@ -32,6 +33,9 @@ const routes = [
   Userroutes.profesores,
   Userroutes.coordinadores,
   Userroutes.directores,
+
+  // 404
+  { path: "*", name: "404", component: PageNotFound },
 ];
 
 const router = new VueRouter({

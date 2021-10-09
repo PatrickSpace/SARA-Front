@@ -72,7 +72,7 @@
                   >
                     <v-icon left>mdi-plus</v-icon>
                     <v-spacer></v-spacer>
-                    Agregar</v-btn
+                    {{ labelbtnadddoc }}</v-btn
                   >
                   <v-btn text color="error" @click.stop="reiniciardocform()">
                     <v-icon left>mdi-cancel </v-icon>
@@ -201,11 +201,17 @@
               </v-form>
             </v-col>
           </v-row>
+          <!--
           <ActionFButton
             v-if="isDirector"
             v-bind:id="id"
             tipo="proyecto"
             v-bind:proyecto="proyecto"
+          />
+          -->
+          <ActionProyectButton
+            v-bind:id="id"
+            v-bind:proyectofrompage="proyecto"
           />
         </div>
       </v-fade-transition>
@@ -216,11 +222,13 @@
 import { mapActions, mapGetters } from "vuex";
 import Defaultlayout from "@/layouts/Defaultlayout.vue";
 import ActionFButton from "@/components/Common/ActionFButton.vue";
+import ActionProyectButton from "@/components/Modulos/Proyecto/ActionbuttonProy.vue";
 export default {
   name: "ProyectobyId",
   components: {
     Defaultlayout,
     ActionFButton,
+    ActionProyectButton,
   },
   data() {
     return {
@@ -230,6 +238,7 @@ export default {
       loading: false,
       docloading: false,
       docloading: false,
+      labelbtnadddoc: "Agregar",
       textodocadd: "",
       agregar: false,
       docrules: [
@@ -302,7 +311,6 @@ export default {
         if (this.proyecto.docname) {
           this.docname = this.proyecto.docname;
         }
-        console.log(this.proyecto.doctext.length);
       } catch (e) {
         console.log(e);
       } finally {
@@ -312,8 +320,10 @@ export default {
     changetextofbuttonadddoc() {
       if (this.docname === "") {
         this.textodocadd = "Agregar un documento";
+        this.labelbtnadddoc = "Agregar";
       } else {
         this.textodocadd = "Actualizar documento";
+        this.labelbtnadddoc = "Actualizar";
       }
     },
     preguntar: async function () {

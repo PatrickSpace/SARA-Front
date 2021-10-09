@@ -1,4 +1,5 @@
 const apiobject = "/user";
+import router from "@/router";
 
 const buscarRol = (roles) => {
   let rol = null;
@@ -98,11 +99,8 @@ export default {
         usuario.rol = buscarRol(usuario.roles);
         return usuario;
       } catch (error) {
-        let msg = null;
-        if (error.response.data.msg) {
-          msg = error.response.data.msg;
-        }
-        dispatch("noti/agregarNotificacionErronea", msg, { root: true });
+        dispatch("readbadnotifications", error, { root: true });
+        router.push({ name: "Profesores" });
       }
     },
     async borrarUsuario({ dispatch }, id) {
@@ -113,22 +111,21 @@ export default {
           root: true,
         });
       } catch (error) {
-        let errores = [];
-        if (error.response.data.msg) {
-          errores = error.response.data.msg;
-        }
-        if (errores.length > 0) {
-          errores.forEach((e) => {
-            dispatch("noti/agregarNotificacionErronea", e, {
-              root: true,
-            });
-          });
-        } else {
-          dispatch("noti/agregarNotificacionErronea", null, { root: true });
-        }
+        dispatch("readbadnotifications", error, { root: true });
+        router.push({ name: "Profesores" });
       }
     },
-    updateUsuario() {},
+    async updateUsuario({ dispatch }, payload) {
+      const url = apiobject + "/" + payload.id;
+      try {
+        const result = await axios.put(url, payload.usuario);
+        dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
+          root: true,
+        });
+      } catch (error) {
+        dispatch("readbadnotifications", error, { root: true });
+      }
+    },
     async addUsuario({ dispatch }, usuario) {
       try {
         const result = await axios.post(apiobject, usuario);
@@ -136,19 +133,18 @@ export default {
           root: true,
         });
       } catch (error) {
-        let errores = [];
-        if (error.response.data.msg) {
-          errores = error.response.data.msg;
-        }
-        if (errores.length > 0) {
-          errores.forEach((e) => {
-            dispatch("noti/agregarNotificacionErronea", e, {
-              root: true,
-            });
-          });
-        } else {
-          dispatch("noti/agregarNotificacionErronea", null, { root: true });
-        }
+        dispatch("readbadnotifications", error, { root: true });
+      }
+    },
+    async asignProyecttouser({ dispatch }, payload) {
+      const url = apiobject + "/asignar/" + payload.id;
+      try {
+        const result = await axios.put(url, { ids: payload.projids });
+        dispatch("noti/agregarNotificacionExitosa", result.data.msg, {
+          root: true,
+        });
+      } catch (error) {
+        dispatch("readbadnotifications", error, { root: true });
       }
     },
   },

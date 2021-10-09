@@ -25,7 +25,7 @@
               </p>
               <p class="text--body1">
                 <span class="font-weight-medium"> Usuario: </span>
-                {{ usuario.username }}
+                {{ usuario.usuario }}
               </p>
               <p class="text--body1">
                 <span class="font-weight-medium"> Rol: </span>
@@ -35,30 +35,42 @@
             <v-col v-if="usuario.rol === 'Profesor'" xl="6" md="7" sm="12">
               <h2 class="text--h2 font-weight-regular">Proyectos asignados</h2>
               <v-divider class="mb-5"></v-divider>
-              <v-card
+              <v-container class="py-0" v-if="usuario.proyectos.length > 0">
+                <v-card
+                  elevation="2"
+                  v-for="(p, i) in usuario.proyectos"
+                  :key="i"
+                  class="mb-3"
+                >
+                  <v-list-item two-line>
+                    <v-list-item-content>
+                      <v-list-item-title v-text="p.nombre"
+                        >Single-line item</v-list-item-title
+                      >
+                      <v-list-item-subtitle
+                        v-text="p.codigo"
+                      ></v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-card>
+              </v-container>
+              <v-alert
+                class="mt-5"
+                v-else
+                colored-border
+                type="warning"
+                border="left"
                 elevation="2"
-                v-for="(p, i) in usuario.proyectos"
-                :key="i"
               >
-                <v-list-item two-line>
-                  <v-list-item-content>
-                    <v-list-item-title v-text="p.nombre"
-                      >Single-line item</v-list-item-title
-                    >
-                    <v-list-item-subtitle
-                      v-text="p.codigo"
-                    ></v-list-item-subtitle>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-btn icon>
-                      <v-icon color="red lighten-1">mdi-delete</v-icon>
-                    </v-btn>
-                  </v-list-item-action>
-                </v-list-item>
-              </v-card>
+                <span class="text--caption">No se han asignados proyectos</span>
+              </v-alert>
             </v-col>
           </v-row>
-          <ActionFButton v-bind:id="id" tipo="user" v-bind:usuario="usuario" />
+
+          <ActionbuttonUser
+            v-bind:id="id"
+            v-bind:usuariofromcomponent="usuario"
+          />
         </div>
       </v-fade-transition>
     </section>
@@ -67,12 +79,14 @@
 <script>
 import Defaultlayout from "@/layouts/Defaultlayout.vue";
 import ActionFButton from "@/components/Common/ActionFButton.vue";
+import ActionbuttonUser from "@/components/Modulos/User/ActionbuttonUser";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "UserbyId",
   components: {
     Defaultlayout,
     ActionFButton,
+    ActionbuttonUser,
   },
   data() {
     return {
@@ -80,9 +94,9 @@ export default {
       loading: false,
       usuario: {
         nombre: "Julio Quispi",
-        username: "user",
+        usuario: "user",
         rol: "Profesor",
-        proyectos: [{ nombre: "nombre 1", codigo: "codigo 1" }],
+        proyectos: [],
       },
       id: this.$route.params.id,
     };
@@ -93,10 +107,7 @@ export default {
       try {
         this.loading = true;
         const userfound = await this.getUsuariobyID(id);
-        this.usuario.nombre = userfound.nombre;
-        this.usuario.username = userfound.usuario;
-        this.usuario.rol = userfound.rol;
-        if (userfound) console.log(userfound.proyectos);
+        this.usuario = userfound;
       } catch (e) {
         console.log(e);
       } finally {

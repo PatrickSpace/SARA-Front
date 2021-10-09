@@ -104,7 +104,7 @@ export default {
           await this.addProjectfromAPI(this.proyecto);
           this.cancelar();
         } catch (e) {
-          console.log(e.response);
+          console.log(e);
         } finally {
           this.loading = false;
         }

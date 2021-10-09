@@ -169,14 +169,13 @@ export default {
           this.getDirectores();
           this.getCoordinadores();
         } catch (e) {
-          console.log(e.response);
+          console.log(e);
         } finally {
           this.loading = false;
         }
       }
     },
     cancelar() {
-      console.log(this.select);
       this.dialog = false;
       this.$refs.form.reset();
     },
