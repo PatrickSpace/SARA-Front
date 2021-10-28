@@ -110,6 +110,18 @@
               label="Nombre de usuario"
               required
             ></v-text-field>
+            <v-text-field
+              :loading="editloading"
+              prepend-inner-icon="mdi-lock"
+              v-model="psw"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show ? 'text' : 'password'"
+              :rules="pswRules"
+              label="Contraseña"
+              clearable
+              required
+              @click:append="show = !show"
+            ></v-text-field>
             <v-select
               :loading="editloading"
               prepend-inner-icon="mdi-account-box-multiple"
@@ -221,6 +233,9 @@ export default {
         usuario: "",
         roles: [],
       },
+      psw: "",
+      show: false,
+      pswRules: [(v) => !!v || "Este campo es obligatorio"],
       rules: {
         nombreRules: [
           (v) => !!v || "Este campo es obligatorio",
