@@ -82,7 +82,7 @@
     </v-dialog>
     <v-dialog v-model="editdialog" max-width="450" persistent>
       <v-card class="pa-3">
-        <v-card-title> Agregar un nuevo usuario </v-card-title>
+        <v-card-title> Editar usuario </v-card-title>
         <v-form
           ref="form"
           v-model="validedit"
@@ -291,22 +291,24 @@ export default {
       this.$refs.form.reset();
     },
     async edituser() {
-      try {
-        this.editloading = true;
-        if (this.select != null) this.usuario.roles = this.select.valor;
-        const payload = {
-          usuario: this.usuario,
-          id: this.id,
-        };
-        await this.updateuser(payload);
-        this.cancelar();
-        setTimeout(() => {
-          this.$router.go();
-        }, 3000);
-      } catch (e) {
-        console.log(e);
-      } finally {
-        this.editloading = false;
+      if (this.$refs.form.validate()) {
+        try {
+          this.editloading = true;
+          if (this.select != null) this.usuario.roles = this.select.valor;
+          const payload = {
+            usuario: this.usuario,
+            id: this.id,
+          };
+          await this.updateuser(payload);
+          this.cancelar();
+          setTimeout(() => {
+            this.$router.go();
+          }, 3000);
+        } catch (e) {
+          console.log(e);
+        } finally {
+          this.editloading = false;
+        }
       }
     },
     obtenerproyectos: function () {
